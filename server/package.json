@@ -1,0 +1,19 @@
+{
+  "name": "GesTeam API",
+  "version": "1.0.0",
+  "description": "API com funcionalidades do GesTeam",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": {
+  	"name": "Lucas de Vico Souza",
+  	"email": "lucas.devico@gmail.com"
+  },
+  "repository": {
+  	"type": "git",
+  	"url": "https://github.com/lucasdevico/GesTeam"
+  },
+  "license": "ISC"
+}
