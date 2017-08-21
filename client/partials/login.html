@@ -9,11 +9,11 @@
                 </button>
                 <strong>Oh não!</strong> {{mensagem}}
             </div> 
+            <form check-validation-complete="realizarLogin()"  check-validation-options="{promptPosition:'bottomLeft'}" id="frmLogin" role="form" class="form-horizontal" method="post" novalidate>
             <div class="login-title"><strong>Acesse</strong> para gerenciar seu time</div>
-            <form check-validation-complete="autenticar()"  check-validation-options="{promptPosition:'bottomLeft'}" id="validate" role="form" class="form-horizontal" method="post" novalidate>
             <div class="form-group">
                 <div class="col-md-12">
-                    <input type="text" class="form-control validate[required] form-control" placeholder="Login" ng-model="usuario.login"/>
+                    <input id="txtLogin" type="text" class="form-control validate[required] form-control" placeholder="Login" ng-model="usuario.login"/>
                 </div>
             </div>
             <div class="form-group">
@@ -44,6 +44,24 @@
             <div class="login-subtitle">
                 Ainda não possui acesso? <a href="#">Crie sua conta</a>
             </div>
+            </form>
+            <form id="frmSelecionarTime" role="form" class="form-horizontal" method="post" novalidate>
+                <div class="login-title"><strong>Selecione</strong> qual time deseja gerenciar</div>
+                <!-- SELECIONAR TIME -->
+                <div class="panel panel-default">
+                    <div class="panel-body list-group list-group-contacts">                                
+                        <a href="#" class="list-group-item" ng-repeat="acesso in usuario.acessos">
+                            <img ng-src="{{acesso._time.imagemSimbolo}}" class="pull-left" alt="{{acesso._time.nome}}"/>
+                            <span class="contacts-title">{{acesso._time.nome}}</span>
+                            <p>{{acesso._time.descricao}}</p>         
+                            <div class="list-group-controls">
+                                <button class="btn btn-primary btn-rounded"><span class="fa fa-cogs"></span></button>
+                            </div>                                    
+                        </a>                                                                
+                    </div>
+                </div>
+                <!-- END SELECIONAR TIME -->
+                <button class="btn btn-default btn-block" ng-click="cancelarSelecionarTime()">Cancelar</button>
             </form>
         </div>
         <div class="login-footer">
