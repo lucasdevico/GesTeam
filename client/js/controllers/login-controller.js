@@ -6,7 +6,7 @@ angular.module('gesteam').controller('LoginController', function($scope, $http, 
     };
 
     $scope.loadPage = function(){
-        $scope.formControls.notificacao.addClass('hide');
+        $scope.formControls.notificacao.hide();
     };
 
     $scope.usuario = {};
@@ -15,7 +15,7 @@ angular.module('gesteam').controller('LoginController', function($scope, $http, 
     $scope.autenticar = function() {
         console.log('clicou');
         var usuario = $scope.usuario;
-        $scope.formControls.notificacao.removeClass('hide');
+        $scope.formControls.notificacao.show();
         $scope.mensagem = 'Usuário e/ou senha inválidos.';  
 
         // $http.post('/autenticar', {login: usuario.login, senha: usuario.senha})
