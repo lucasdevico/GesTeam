@@ -1,5 +1,6 @@
 'use strict';
 angular.module('gesteam').controller('LoginController', function($scope, $http, $location, $rootScope, $window) {
+    var me = $scope;
     $scope.usuario = {};
     $scope.mensagem = '';
     $scope.formControls = {
@@ -13,12 +14,19 @@ angular.module('gesteam').controller('LoginController', function($scope, $http, 
         $scope.formControls.txtLogin.focus();
         $scope.formControls.notificacao.hide();
         $scope.formControls.frmSelecionarTime.hide();
+        initValidation();
+    };
+
+    $scope.cadastro = function(){
+        $location.path('/cadastro');
     };
 
     $scope.realizarLogin = function() {
         $scope.mensagem = '';
         $scope.formControls.notificacao.hide();
         var usuarioLogin = $scope.usuario;
+
+        console.log($("#frmLogin").validator.validate());
         
         $http.post('/autenticar', {login: usuarioLogin.login, senha: usuarioLogin.senha})
         .then(function(response){
@@ -55,6 +63,19 @@ angular.module('gesteam').controller('LoginController', function($scope, $http, 
         $scope.formControls.frmSelecionarTime.hide();
         $scope.formControls.frmLogin.fadeIn(1000);
         $scope.formControls.txtLogin.focus();
+    }
+
+    var initValidation = function(){
+        var validator = $("#frmLogin").validate({
+                        rules: {
+                            txtLogin: {
+                                required: true
+                            },
+                            txtSenha: {
+                                required: true
+                            }
+                        }
+                    });
     }
 
     $scope.loadPage();

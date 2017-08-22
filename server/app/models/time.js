@@ -9,7 +9,7 @@ var schema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	descricao: {
+	nomeCompleto: {
 		type: String,
 		required: true
 	},

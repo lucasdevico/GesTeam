@@ -1,0 +1,12 @@
+.clickable{
+	cursor: pointer;
+}
+
+.login-container.modal-login{
+	padding-top: 2%;
+}
+
+.modal-login .page-content-wrap{
+	width: 80%;
+    margin: 0px 10%;
+}

@@ -7,6 +7,11 @@ angular.module('gesteam', ['ngAnimate', 'ngRoute'])
         controller: 'LoginController'
     }); 
 
+    $routeProvider.when('/cadastro', {
+        templateUrl: 'partials/cadastro.html',
+        controller: 'CadastroController'
+    }); 
+
     $routeProvider.otherwise({redirectTo: '/'});
 
 });

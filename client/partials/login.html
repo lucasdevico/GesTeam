@@ -9,16 +9,16 @@
                 </button>
                 <strong>Oh não!</strong> {{mensagem}}
             </div> 
-            <form check-validation-complete="realizarLogin()"  check-validation-options="{promptPosition:'bottomLeft'}" id="frmLogin" role="form" class="form-horizontal" method="post" novalidate>
+            <form id="frmLogin" role="form" class="form-horizontal" method="post" novalidate>
             <div class="login-title"><strong>Acesse</strong> para gerenciar seu time</div>
             <div class="form-group">
                 <div class="col-md-12">
-                    <input id="txtLogin" type="text" class="form-control validate[required] form-control" placeholder="Login" ng-model="usuario.login"/>
+                    <input id="txtLogin" type="text" name="txtLogin" class="form-control validate[required] form-control" placeholder="Login" ng-model="usuario.login"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-12">
-                    <input type="password" class="validate[required] form-control" placeholder="Senha" ng-model="usuario.senha"/>
+                    <input type="password" class="validate[required] form-control" name="txtSenha" placeholder="Senha" ng-model="usuario.senha"/>
                 </div>
             </div>
             <div class="form-group">
@@ -26,7 +26,7 @@
                     <a href="#" class="btn btn-link btn-block">Esqueceu sua senha?</a>
                 </div>
                 <div class="col-md-6">
-                    <button class="btn btn-info btn-block">Entrar</button>
+                    <button class="btn btn-info btn-block" ng-click="realizarLogin()">Entrar</button>
                 </div>
             </div>
             <div class="login-or hide">OU</div>
@@ -41,8 +41,8 @@
                     <button class="btn btn-info btn-block btn-google"><span class="fa fa-google-plus"></span> Google</button>
                 </div>
             </div>
-            <div class="login-subtitle">
-                Ainda não possui acesso? <a href="#">Crie sua conta</a>
+            <div class="login-subtitle clickable">
+                Ainda não possui acesso? <a ng-click="cadastro()">Crie sua conta</a>
             </div>
             </form>
             <form id="frmSelecionarTime" role="form" class="form-horizontal" method="post" novalidate>
