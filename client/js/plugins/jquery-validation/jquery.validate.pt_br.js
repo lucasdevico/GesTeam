@@ -24,11 +24,6 @@ $.validator.setDefaults({
 	// Set validator to NOT ignore hidden selects
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     errorPlacement: function(error, element) {
-        // if(element.parent('.input-group').length) {
-        //     error.insertAfter(element.parent());
-        // } else {
-        //     error.insertAfter(element);
-        // }
         if (element.hasClass('select')){
         	element.parent().find('.bootstrap-select').first().addClass('error');
         	error.insertAfter(element.parent().find('.bootstrap-select').first());
@@ -45,6 +40,9 @@ $.validator.setDefaults({
         		}
         	});
         }
+        else if(element.parent('.input-group').length){
+          error.insertAfter(element.parent('.input-group'));
+        }
         else{
         	error.insertAfter(element);
         }
@@ -52,7 +50,7 @@ $.validator.setDefaults({
 });
 
 $.extend($.validator.messages, {
-	required: "Este campo &eacute; requerido.",
+	required: "Campo obrigatório.",
 	remote: "Por favor, corrija este campo.",
 	email: "Por favor, forne&ccedil;a um endere&ccedil;o de email v&aacute;lido.",
 	url: "Por favor, forne&ccedil;a uma URL v&aacute;lida.",

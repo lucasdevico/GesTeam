@@ -7,7 +7,9 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
         txtDtNascimento: $("#txtDtNascimento"),
         txtTelefone1: $("#txtTelefone1"),
         txtTelefone2: $("#txtTelefone2"),
-        txtDtFundacao: $("#txtDtFundacao")
+        txtDtFundacao: $("#txtDtFundacao"),
+        divInformacoesContatoTime: $("#divInformacoesContatoTime"),
+        divInformacoesContatoPessoais: $("#divInformacoesContatoPessoais")
 	};
 	$scope.novoCadastro = {
 		usuario: {
@@ -119,61 +121,82 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
                 var validator = $scope.formControls.form.validate({
                         rules: {
                             //## Step 1
-                            // txtNome: {
-                            //     required: true
-                            // },
-                            // txtDtNascimento: {
-                            // 	required: true,
-                            //     date: true
-                            // },
-                            // txtEmail: {
-                            //     required: true,
-                            //     email: true
-                            // },
-                            // txtLogin: {
-                            //     required: true
-                            // },
-                            // txtSenha: {
-                            //     required: true,
-                            //     minlength: 6,
-                            //     maxlength: 10,
-                            // },
-                            // txtConfirmaSenha: {
-                            //     required: true,
-                            //     minlength: 6,
-                            //     maxlength: 10,
-                            //     equalTo: "#txtSenha"
-                            // },
+                            txtNome: {
+                                required: true
+                            },
+                            txtDtNascimento: {
+                            	required: true,
+                                date: true
+                            },
+                            txtEmail: {
+                                required: true,
+                                email: true
+                            },
+                            txtLogin: {
+                                required: true
+                            },
+                            txtSenha: {
+                                required: true,
+                                minlength: 6,
+                                maxlength: 10,
+                            },
+                            txtConfirmaSenha: {
+                                required: true,
+                                minlength: 6,
+                                maxlength: 10,
+                                equalTo: "#txtSenha"
+                            },
 
                             //## Step 2
-                            // txtTelefone1: {
-                            //     required: true
-                            // },
-                            // txtTelefone2: {
-                            //     required: true
-                            // }
+                            txtTelefone1: {
+                                required: true
+                            },
 
                             //## Step 3
-                            // txtNomeTime: {
-                            //     required: true
-                            // },
-                            // txtNomeCompletoTime: {
-                            //     required: true
-                            // },
-                            // cboModalidade: {
-                            //     required: true
-                            // },
-                            // cboQtdQuadros: {
-                            //     required: true
-                            // }
+                            txtNomeTime: {
+                                required: true
+                            },
+                            txtNomeCompletoTime: {
+                                required: true
+                            },
+                            cboModalidade: {
+                                required: true
+                            },
+                            cboQtdQuadros: {
+                                required: true
+                            },
 
                             //## Step 4
-
+                            txtCEP: {
+                                required: true
+                            },
+                            txtLogradouro: {
+                                required: true
+                            },
+                            txtBairro: {
+                                required: true
+                            },
+                            cboUF: {
+                                required: true
+                            },
+                            cboCidade: {
+                                required: true
+                            },
+                            txtTimeEmail: {
+                                required: true,
+                                email: true
+                            },
+                            txtTimeTelefone1: {
+                                required: true
+                            }
                         }
                     });
             }// End of example
             
-            $(".wizard").smartWizard({                        
+            setTimeout(function(){
+               $(".wizard").smartWizard({        
+                // fix para ajuste automático de altura após a validação
+                updateHeight: false,
                 // This part of code can be removed FROM
                 onLeaveStep: function(obj){
                     var wizard = obj.parents(".wizard");
@@ -198,7 +221,7 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
                 },// <-- TO
                 
                 //This is important part of wizard init
-                onShowStep: function(obj){                        
+                onShowStep: function(obj){            
                     var wizard = obj.parents(".wizard");
 
                     if(wizard.hasClass("show-submit")){
@@ -213,9 +236,24 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
                     return true;                         
                 }//End
             });
+            }, 0);
         }            
         
     }// End Smart Wizard
+
+    $scope.configurarContatoTime = function($event){
+        var checkbox = $event.target;
+        var action = (checkbox.checked ? 'PESSOAL' : 'TIME');
+
+        if (action == 'PESSOAL'){
+            $scope.formControls.divInformacoesContatoTime.hide();
+            $scope.formControls.divInformacoesContatoPessoais.fadeIn(1000);
+        }
+        else{
+            $scope.formControls.divInformacoesContatoPessoais.hide();
+            $scope.formControls.divInformacoesContatoTime.fadeIn(1000);
+        }
+    }
 
 	// init
 	$scope.loadPage();

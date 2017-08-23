@@ -22,7 +22,7 @@
 
     -->
     <!-- PAGE CONTENT -->
-    <div class="login-container lightmode modal-login">
+    <div class="blank-container lightmode modal-login">
         <!-- PAGE CONTENT WRAPPER -->
         <div class="page-content-wrap">
         
@@ -46,7 +46,7 @@
                                     <li>
                                         <a href="#step-1">
                                             <span class="stepNumber">1</span>
-                                            <span class="stepDesc">Pessoal<br /><small>Informações</small></span>
+                                            <span class="stepDesc">Pessoal<br /><small>Dados do Usuário</small></span>
                                         </a>
                                     </li>
                                     <li>
@@ -58,13 +58,13 @@
                                     <li>
                                         <a href="#step-3">
                                             <span class="stepNumber">3</span>
-                                            <span class="stepDesc">Time<br /><small>Informações</small></span>
+                                            <span class="stepDesc">Time<br /><small>Dados do Time</small></span>
                                         </a>
                                     </li>  
                                     <li>
                                         <a href="#step-4">
                                             <span class="stepNumber">4</span>
-                                            <span class="stepDesc">Localização e Contatos<br /><small>Informações do Time</small></span>
+                                            <span class="stepDesc">Localização<br /><small>Informações do Time</small></span>
                                         </a>
                                     </li>  
                                 </ul>
@@ -73,14 +73,17 @@
 
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Nome</label>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-xs-12">
                                             <input type="text" class="form-control" id="txtNome" name="txtNome" placeholder="Nome" ng-model="novoCadastro.usuario.nome"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Data de Nascimento</label>
-                                        <div class='col-md-2'>
-                                            <input type='text' class="form-control datepicker" id='txtDtNascimento' name='txtDtNascimento' placeholder="Data de Nascimento" ng-model="novoCadastro.usuario.dataNascimento" />
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control datepicker" id='txtDtNascimento' name='txtDtNascimento' placeholder="Data de Nascimento" ng-model="novoCadastro.usuario.dataNascimento">                                  
+                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group"></div>
@@ -101,13 +104,11 @@
                                         <div class="col-md-2">
                                             <input type="password" class="form-control" id="txtSenha" name="txtSenha" placeholder="Senha" ng-model="novoCadastro.usuario.senha"/>
                                         </div>
-                                    </div>             
-                                    <div class="form-group">
                                         <label class="col-md-2 control-label">Confirmar Senha</label>
                                         <div class="col-md-2">
                                             <input type="password" class="form-control" id="txtConfirmaSenha" name="txtConfirmaSenha" placeholder="Confirmar Senha" ng-model="novoCadastro.usuario.confirmaSenha"/>
                                         </div>
-                                    </div>
+                                    </div>    
                                 </div>
 
                                 <div id="step-2">
@@ -120,15 +121,15 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Telefone (2)</label>
                                         <div class="col-md-2">
-                                            <input type="telefone" class="form-control" id="txtTelefone2" name="txtTelefone2" placeholder="Telefone" ng-model="novoCadastro.usuario.contato.telefone1"/>
+                                            <input type="telefone" class="form-control" id="txtTelefone2" name="txtTelefone2" placeholder="Telefone" ng-model="novoCadastro.usuario.contato.telefone2"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 col-xs-12 control-label">Permitir Mensagens</label>
                                         <div class="col-md-1 col-xs-12">                                                                            
-                                            <label class="check"><input type="checkbox" class="icheckbox" ng-model="novoCadastro.usuario.contato.permiteSMS" /> SMS</label>
+                                            <label class="check"><input id="cbxPermiteSMS" name="cbxPermiteSMS" type="checkbox" class="icheckbox" ng-model="novoCadastro.usuario.contato.permiteSMS" /> SMS</label>
                                             <br>
-                                            <label class="check"><input type="checkbox" class="icheckbox" ng-model="novoCadastro.usuario.contato.permiteEmail" /> Email</label>
+                                            <label class="check"><input id="cbxTimePermiteEmail" name="cbxTimePermiteEmail" type="checkbox" class="icheckbox" ng-model="novoCadastro.usuario.contato.permiteEmail" /> Email</label>
                                         </div>
                                     </div>
                                 </div>
@@ -148,8 +149,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-2 control-label">Data de Fundação</label>
-                                        <div class='col-md-2'>
-                                            <input type='text' class="form-control datepicker" id='txtDtFundacao' name='txtDtFundacao' placeholder="Data de Fundação" ng-model="novoCadastro.time.dataFundacao" />
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control datepicker" id='txtDtFundacao' name='txtDtFundacao' placeholder="Data Fundação" ng-model="novoCadastro.time.dataFundacao">                                  
+                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -177,7 +181,7 @@
                                     </div>
                                 </div>                                                                                                    
                                 <div id="step-4">        
-                                    <div class="col-md-6">
+                                    <div class="col-md-7">
                                         <h4>Localização</h4>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">CEP</label>
@@ -205,15 +209,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">UF</label>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <select id="cboUF" name="cboUF" class="form-control select" 
                                                 ng-model="novoCadastro.time.localizacao.uf">
                                                     <option></option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Cidade</label>
+                                            <label class="col-md-1 control-label">Cidade</label>
                                             <div class="col-md-4">
                                                 <select id="cboCidade" name="cboCidade" class="form-control select" 
                                                 ng-model="novoCadastro.time.localizacao.cidade">
@@ -222,33 +224,54 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <h4>Contato</h4>
 
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Email</label>
-                                            <div class="col-md-7">
-                                                <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="Email" ng-model="novoCadastro.usuario.contato.email"/>
-                                            </div>
+                                        <label class="check"><input type="checkbox" id="cbxUtilizarContatoPessoal" name="cbxUtilizarContatoPessoal" class="icheckbox" checked="checked" ng-click="configurarContatoTime($event)" /> Utilizar informações pessoais</label>
+
+                                        <div id="divInformacoesContatoPessoais" class="panel panel-default">
+                                            <div class="panel-body profile">
+                                                <div class="profile-data">
+                                                    <div class="profile-data-title">
+                                                        Informações de Contato Pessoais
+                                                    </div>
+                                                </div>
+                                            </div>                                
+                                            <div class="panel-body">                                    
+                                                <div class="contact-info">
+                                                    <p><small>Email</small><br/>{{novoCadastro.usuario.contato.email}}</p>
+                                                    <p><small>Telefone (1)</small><br/>{{novoCadastro.usuario.contato.telefone1}}</p>
+                                                    <p><small>Telefone (2)</small><br/>{{novoCadastro.usuario.contato.telefone2}}</p>                                 
+                                                </div>
+                                            </div>                                
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Telefone (1)</label>
-                                            <div class="col-md-4">
-                                                <input type="telefone" class="form-control" id="txtTelefone1" name="txtTelefone1"placeholder="Telefone" ng-model="novoCadastro.usuario.contato.telefone1"/>
+
+                                        <div id="divInformacoesContatoTime" class="col-md-12" style="display: none; margin-top: 15px;">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Email</label>
+                                                <div class="col-md-8">
+                                                    <input type="email" class="form-control" id="txtTimeEmail" name="txtTimeEmail" placeholder="Email" ng-model="novoCadastro.time.contato.email"/>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Telefone (2)</label>
-                                            <div class="col-md-4">
-                                                <input type="telefone" class="form-control" id="txtTelefone2" name="txtTelefone2" placeholder="Telefone" ng-model="novoCadastro.usuario.contato.telefone1"/>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Telefone (1)</label>
+                                                <div class="col-md-4">
+                                                    <input type="telefone" class="form-control" id="txtTimeTelefone1" name="txtTimeTelefone1"placeholder="Telefone" ng-model="novoCadastro.time.contato.telefone1"/>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 col-xs-12 control-label">Permitir Mensagens</label>
-                                            <div class="col-md-2 col-xs-12">                                                                            
-                                                <label class="check"><input type="checkbox" class="icheckbox" ng-model="novoCadastro.usuario.contato.permiteSMS" /> SMS</label>
-                                                <br>
-                                                <label class="check"><input type="checkbox" class="icheckbox" ng-model="novoCadastro.usuario.contato.permiteEmail" /> Email</label>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Telefone (2)</label>
+                                                <div class="col-md-4">
+                                                    <input type="telefone" class="form-control" id="txtTimeTelefone2" name="txtTimeTelefone2" placeholder="Telefone" ng-model="novoCadastro.time.contato.telefone1"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 col-xs-12 control-label">Permitir Mensagens</label>
+                                                <div class="col-md-2 col-xs-12">                                                                            
+                                                    <label class="check"><input id="cbxTimePermiteSMS" name="cbxTimePermiteSMS" type="checkbox" class="icheckbox" ng-model="novoCadastro.time.contato.permiteSMS" /> SMS</label>
+                                                    <br>
+                                                    <label class="check"><input id="cbxTimePermiteEmail" name="cbxTimePermiteEmail" type="checkbox" class="icheckbox" ng-model="novoCadastro.time.contato.permiteEmail" /> Email</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
