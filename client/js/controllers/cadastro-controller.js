@@ -1,5 +1,5 @@
 'use strict';
-angular.module('gesteam').controller('CadastroController', function($scope, $http, $location, $rootScope, $window) {
+app.controller('CadastroController', function($scope, $http, $location, $rootScope, $window, utilsService) {
 	// controles da pagina
 	$scope.formControls = {
         form: $("#frmNovoCadastro"),
@@ -9,8 +9,11 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
         txtTelefone2: $("#txtTelefone2"),
         txtDtFundacao: $("#txtDtFundacao"),
         divInformacoesContatoTime: $("#divInformacoesContatoTime"),
-        divInformacoesContatoPessoais: $("#divInformacoesContatoPessoais")
+        divInformacoesContatoPessoais: $("#divInformacoesContatoPessoais"),
+        cboUF: $("#cboUF"),
+        cboCidade: $("#cboCidade")
 	};
+
 	$scope.novoCadastro = {
 		usuario: {
 			nome: null,
@@ -33,15 +36,24 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
                 uf: null,
                 cidade: null
             }
-		}
+		},
+        time: {
+            localizacao: {
+                uf: null,
+                cidade: null
+            }
+        }
 	};
+
+    $scope.lstEstados = [];
+    $scope.lstCidades = [];
 
 	// load
 	$scope.loadPage = function(){
 		initSmartWizard();
 		initDatepicker();
         initMasks();
-        initSelect();
+        $scope.carregarComboUF();
         $scope.formControls.txtNome.focus();
 	};
 
@@ -90,21 +102,6 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
             });
     }
 
-    var initSelect = function(){
-        if($(".select").length > 0){
-            $(".select").selectpicker({ noneSelectedText: 'Selecione' });
-            
-            $(".select").on("change", function(){
-                if($(this).val() == "" || null === $(this).val()){
-                    if(!$(this).attr("multiple"))
-                        $(this).val("").find("option").removeAttr("selected").prop("selected",false);
-                }else{
-                    $(this).find("option[value="+$(this).val()+"]").attr("selected",true);
-                }
-            });
-        }
-    }
-
     // Start Smart Wizard
     var initSmartWizard = function(){
         
@@ -117,9 +114,9 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
             
             // This par of code used for example
             if($scope.formControls.form.length > 0){
-                
                 var validator = $scope.formControls.form.validate({
                         rules: {
+                            /*
                             //## Step 1
                             txtNome: {
                                 required: true
@@ -189,9 +186,10 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
                             txtTimeTelefone1: {
                                 required: true
                             }
+                            */
                         }
                     });
-            }// End of example
+            }
             
             setTimeout(function(){
                $(".wizard").smartWizard({        
@@ -253,6 +251,27 @@ angular.module('gesteam').controller('CadastroController', function($scope, $htt
             $scope.formControls.divInformacoesContatoPessoais.hide();
             $scope.formControls.divInformacoesContatoTime.fadeIn(1000);
         }
+    }
+
+    $scope.carregarComboUF = function(){
+        utilsService.listarEstados().then(function (response) {
+                $scope.lstEstados = response.data;
+            },
+            function (responseError) {
+                console.log('erro!');
+                //## TRATAR
+            });
+    }
+
+    $scope.carregarComboCidades = function(){
+        var siglaEstado = $scope.novoCadastro.time.localizacao.uf;
+        utilsService.listarCidades(siglaEstado).then(function (response) {
+                $scope.lstCidades = response.data;
+            },
+            function (responseError) {
+                console.log('erro!');
+                //## TRATAR
+            });
     }
 
 	// init

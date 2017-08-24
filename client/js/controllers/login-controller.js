@@ -1,5 +1,5 @@
 'use strict';
-angular.module('gesteam').controller('LoginController', function($scope, $http, $location, $rootScope, $window) {
+app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginService', '$window', function($scope, $location, $rootScope, loginService, $window) {
     var me = $scope;
     $scope.usuario = {};
     $scope.mensagem = '';
@@ -26,35 +26,47 @@ angular.module('gesteam').controller('LoginController', function($scope, $http, 
         $scope.formControls.notificacao.hide();
         var usuarioLogin = $scope.usuario;
 
-        console.log($("#frmLogin").validator.validate());
+        var isValid = $scope.formControls.frmLogin.valid();
         
-        $http.post('/autenticar', {login: usuarioLogin.login, senha: usuarioLogin.senha})
-        .then(function(response){
-            $rootScope.usuario = $scope.usuario = response.data;
+        if (isValid){
 
-            console.log($scope.usuario);
-            
-            // Verifica se existe time cadastrado para o usuário
-            if($scope.usuario.acessos.length == 0){
+            var authenticationData = {
+                login: usuarioLogin.login,
+                senha: usuarioLogin.senha
+            };
+
+            loginService.logon(authenticationData).then(function(response){
+                $rootScope.usuario = $scope.usuario = response;
+
+                // Verifica se existe time cadastrado para o usuário
+                if($scope.usuario.acessos.length == 0){
+                    $rootScope.usuario = $scope.usuario = {};
+                    $scope.mensagem = 'Não existem times cadastrados para este usuário.';
+                    $scope.formControls.notificacao.show();
+                    return;
+                }
+                
+                // Exibe lista para seleção de time
+                $scope.formControls.frmLogin.hide();
+                $scope.formControls.frmSelecionarTime.fadeIn(1000);
+
+                // Verifica status do time selecionado
+                
+                // Direciona o usuário para página principal do sistema
+                //$location.path('/');
+            },
+            function(responseError){
                 $rootScope.usuario = $scope.usuario = {};
-                $scope.mensagem = 'Não existem times cadastrados para este usuário.';
+                
+                if (responseError.status == 401){
+                    $scope.mensagem = 'Usuário e/ou senha inválidos.';
+                }
+                else{
+                    $scope.mensagem = 'Ocorreu um erro não esperado.';
+                }
                 $scope.formControls.notificacao.show();
-                return;
-            }
-            
-            // Exibe lista para seleção de time
-            $scope.formControls.frmLogin.hide();
-            $scope.formControls.frmSelecionarTime.fadeIn(1000);
-
-            // Verifica status do time selecionado
-            
-            // Direciona o usuário para página principal do sistema
-            //$location.path('/');
-        }, function(erro) {
-            $rootScope.usuario = $scope.usuario = {};
-            $scope.mensagem = 'Usuário e/ou senha inválidos.';
-            $scope.formControls.notificacao.show();
-        });
+            });
+        }
     };
 
     $scope.cancelarSelecionarTime = function (){
@@ -79,4 +91,4 @@ angular.module('gesteam').controller('LoginController', function($scope, $http, 
     }
 
     $scope.loadPage();
-}); 
+}]); 

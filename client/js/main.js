@@ -1,7 +1,9 @@
-angular.module('gesteam', ['ngAnimate', 'ngRoute'])
-.config(function($routeProvider, $locationProvider, $httpProvider) {
+var app = angular.module('gesteam', ['ngAnimate', 'ngRoute', 'ngResource', 'LocalStorageModule']);
 
-    //$httpProvider.interceptors.push('tokenInterceptor');
+var serviceBase = 'http://localhost:3000';
+
+app.config(function($routeProvider, $locationProvider) {
+
     $routeProvider.when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'LoginController'
@@ -14,4 +16,12 @@ angular.module('gesteam', ['ngAnimate', 'ngRoute'])
 
     $routeProvider.otherwise({redirectTo: '/'});
 
+});
+
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('tokenInterceptor');
+});
+
+app.constant('ngAuthSettings', {
+    apiServiceBaseUri: serviceBase
 });

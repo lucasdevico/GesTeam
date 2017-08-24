@@ -7,63 +7,6 @@ module.exports = function(app) {
      var modelUsuario = mongoose.model('Usuario');
      var modelTime = mongoose.model('Time');
 
-     api.inserirUsuario = function(req, res){
-        var timeMalibu = new modelTime({
-            codigoIdentificacao: "0001",
-            nome: "Malibu",
-            descricao: "Malibu Futsal",
-            localizacao: {
-                cep: "02072001",
-                logradouro: "Av. Conceição, 1310",
-                complemento: "Apto. 4",
-                bairro: "Carandirú",
-                cidade: "São Paulo",
-                UF: "SP"
-            },
-            contato: {
-                telefone1: "11951694589",
-                telefone2: null,
-                email: "lucas.devico@gmail.com",
-                permiteSMS: null,
-                permiteEmail: null
-            },
-            imagemSimbolo: "../img/simbolos/semsimbolo.png",
-            coresUniforme1: "#000;#000;#000",
-            coresUniforme1: "#fff;#fff;#fff",
-            status: "Ativo",
-            dataFundacao: new Date(2007,03,28),
-            dataCadastro: new Date(),
-            modalidade: "Futsal",
-            qtdQuadros: 2
-        });
-
-        timeMalibu.save(function(err){
-            if (err) return handleError(err);
-
-            var usuarioLucas = new modelUsuario({
-                login: "lucas.devico",
-                senha: "123456",
-                contato: {
-                    telefone1: "11951694589",
-                    telefone2: null,
-                    email: "lucas.devico@gmail.com",
-                    permiteSMS: null,
-                    permiteEmail: null
-                },
-                acessos: [
-                    {
-                        _time: timeMalibu._id,
-                        bloqueado: false
-                    }
-                ]
-            });
-
-            usuarioLucas.save(function(err){
-                if(err) handleError(err);
-            });
-        });
-     };
-
      api.autentica = function(req, res) {
          modelUsuario.findOne({
              login: req.body.login,
