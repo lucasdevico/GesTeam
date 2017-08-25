@@ -3,6 +3,6 @@ module.exports = function(app) {
     var apiUtils = app.api.utils;
     app.post('/autenticar', api.autentica);
     app.get('/utils/listarEstados', apiUtils.listarEstados);
-    app.get('/utils/listarCidades', apiUtils.listarCidades);
+    app.get('/utils/listarCidades/:siglaEstado', apiUtils.listarCidades);
     app.use('/*', api.verificaToken);
 };

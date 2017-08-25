@@ -1,6 +1,7 @@
 var app = angular.module('gesteam', ['ngAnimate', 'ngRoute', 'ngResource', 'LocalStorageModule']);
 
 var serviceBase = 'http://localhost:3000';
+var apiCorreiosBase = 'http://api.postmon.com.br/v1/cep/';
 
 app.config(function($routeProvider, $locationProvider) {
 
@@ -23,5 +24,6 @@ app.config(function ($httpProvider) {
 });
 
 app.constant('ngAuthSettings', {
-    apiServiceBaseUri: serviceBase
+    apiServiceBaseUri: serviceBase,
+    apiCorreiosBaseUri: apiCorreiosBase
 });

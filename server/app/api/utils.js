@@ -14,9 +14,8 @@ module.exports = function(app) {
 	};
 
 	api.listarCidades = function(req, res){
-		console.log(req.params);
 		var siglaEstado = req.params.siglaEstado;
-		modelEstado.find({'estado': siglaEstado}).then(function(lstCidades){
+		modelEstado.find({'estado': siglaEstado}).sort({'cidades':1}).then(function(lstCidades){
 	    	res.json(lstCidades);
 	    }, function(error){
 			res.status(500).json(error);

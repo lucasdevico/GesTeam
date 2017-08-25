@@ -1,5 +1,5 @@
 'use strict';
-app.controller('CadastroController', function($scope, $http, $location, $rootScope, $window, utilsService) {
+app.controller('CadastroController', function($scope, $http, $location, $rootScope, $window, utilsService, $q) {
 	// controles da pagina
 	$scope.formControls = {
         form: $("#frmNovoCadastro"),
@@ -10,6 +10,9 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
         txtDtFundacao: $("#txtDtFundacao"),
         divInformacoesContatoTime: $("#divInformacoesContatoTime"),
         divInformacoesContatoPessoais: $("#divInformacoesContatoPessoais"),
+        txtCEP: $("#txtCEP"),
+        txtLogradouro: $("#txtLogradouro"),
+        txtBairro: $("#txtBairro"),
         cboUF: $("#cboUF"),
         cboCidade: $("#cboCidade")
 	};
@@ -27,7 +30,9 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
                 telefone2: null,
                 permiteSMS: false,
                 permiteEmail: false
-            },
+            }
+		},
+        time: {
             localizacao: {
                 cep: null,
                 logradouro: null,
@@ -36,23 +41,19 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
                 uf: null,
                 cidade: null
             }
-		},
-        time: {
-            localizacao: {
-                uf: null,
-                cidade: null
-            }
         }
 	};
 
     $scope.lstEstados = [];
     $scope.lstCidades = [];
+    $scope.validator = {};
 
 	// load
 	$scope.loadPage = function(){
 		initSmartWizard();
 		initDatepicker();
         initMasks();
+        initValidation();
         $scope.carregarComboUF();
         $scope.formControls.txtNome.focus();
 	};
@@ -61,60 +62,10 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
         $location.path('/login');
     };
 
-    var initDatepicker = function(){    
-        $(".datepicker").datetimepicker({
-            format: 'DD/MM/YYYY',
-            locale: 'pt-br',
-            useCurrent: false
-        });
-    }
-
-    var initMasks = function(){
-        $scope.formControls.txtDtNascimento.mask("99/99/9999");
-        $scope.formControls.txtDtFundacao.mask("99/99/9999");
-
-        $scope.formControls.txtTelefone1.mask("(99) 9999-9999?9")
-            .focusout(function (event) {  
-                var target, phone, element;  
-                target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
-                phone = target.value.replace(/\D/g, '');
-                element = $(target);  
-                element.unmask();  
-                if(phone.length > 10) {  
-                    element.mask("(99) 99999-999?9");  
-                } else {  
-                    element.mask("(99) 9999-9999?9");  
-                }  
-            });
-
-        $scope.formControls.txtTelefone2.mask("(99) 9999-9999?9")
-            .focusout(function (event) {  
-                var target, phone, element;  
-                target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
-                phone = target.value.replace(/\D/g, '');
-                element = $(target);  
-                element.unmask();  
-                if(phone.length > 10) {  
-                    element.mask("(99) 99999-999?9");  
-                } else {  
-                    element.mask("(99) 9999-9999?9");  
-                }  
-            });
-    }
-
-    // Start Smart Wizard
-    var initSmartWizard = function(){
-        
-        if($(".wizard").length > 0){
-            
-            //Check count of steps in each wizard
-            $(".wizard > ul").each(function(){
-                $(this).addClass("steps_"+$(this).children("li").length);
-            });//end
-            
-            // This par of code used for example
+    var initValidation = function(){
+        // This par of code used for example
             if($scope.formControls.form.length > 0){
-                var validator = $scope.formControls.form.validate({
+                $scope.validator = $scope.formControls.form.validate({
                         rules: {
                             /*
                             //## Step 1
@@ -122,7 +73,7 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
                                 required: true
                             },
                             txtDtNascimento: {
-                            	required: true,
+                                required: true,
                                 date: true
                             },
                             txtEmail: {
@@ -190,11 +141,65 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
                         }
                     });
             }
+    };
+
+    var initDatepicker = function(){    
+        $(".datepicker").datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'pt-br',
+            useCurrent: false
+        });
+    }
+
+    var initMasks = function(){
+        $scope.formControls.txtCEP.mask('99999-999');
+        $scope.formControls.txtDtNascimento.mask("99/99/9999");
+        $scope.formControls.txtDtFundacao.mask("99/99/9999");
+
+        $scope.formControls.txtTelefone1.mask("(99) 9999-9999?9")
+            .focusout(function (event) {  
+                var target, phone, element;  
+                target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+                phone = target.value.replace(/\D/g, '');
+                element = $(target);  
+                element.unmask();  
+                if(phone.length > 10) {  
+                    element.mask("(99) 99999-999?9");  
+                } else {  
+                    element.mask("(99) 9999-9999?9");  
+                }  
+            });
+
+        $scope.formControls.txtTelefone2.mask("(99) 9999-9999?9")
+            .focusout(function (event) {  
+                var target, phone, element;  
+                target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+                phone = target.value.replace(/\D/g, '');
+                element = $(target);  
+                element.unmask();  
+                if(phone.length > 10) {  
+                    element.mask("(99) 99999-999?9");  
+                } else {  
+                    element.mask("(99) 9999-9999?9");  
+                }  
+            });
+    }
+
+    // Start Smart Wizard
+    var initSmartWizard = function(){
+        
+        if($(".wizard").length > 0){
+            
+            //Check count of steps in each wizard
+            $(".wizard > ul").each(function(){
+                $(this).addClass("steps_"+$(this).children("li").length);
+            });//end
             
             setTimeout(function(){
                $(".wizard").smartWizard({        
                 // fix para ajuste automático de altura após a validação
                 updateHeight: false,
+                keyNavigation: false,
                 // This part of code can be removed FROM
                 onLeaveStep: function(obj){
                     var wizard = obj.parents(".wizard");
@@ -204,7 +209,7 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
                         var valid = true;
                         
                         $('input,textarea',$(obj.attr("href"))).each(function(i,v){
-                            valid = validator.element(v) && valid;
+                            valid = $scope.validator.element(v) && valid;
                         });
                                                     
                         if(!valid){
@@ -260,18 +265,79 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
             function (responseError) {
                 console.log('erro!');
                 //## TRATAR
-            });
+        });
     }
 
     $scope.carregarComboCidades = function(){
+        $scope.novoCadastro.time.localizacao.cidade = null;
+        $scope.lstCidades = [];
         var siglaEstado = $scope.novoCadastro.time.localizacao.uf;
-        utilsService.listarCidades(siglaEstado).then(function (response) {
-                $scope.lstCidades = response.data;
-            },
-            function (responseError) {
-                console.log('erro!');
-                //## TRATAR
+
+        var deferred = $q.defer();
+
+        if (siglaEstado){
+            utilsService.listarCidades(siglaEstado).then(function (response) {
+                    if (response.data){
+                        $scope.lstCidades = response.data[0].cidades;
+                    }
+                    deferred.resolve(response);
+                },
+                function (responseError) {
+                    deferred.reject(responseError);
+                    console.log('erro!');
+                    //## TRATAR
             });
+        }
+
+        return deferred.promise;
+    }
+
+    $scope.carregarLocalizacaoPorCEP = function(){
+        var cep = $scope.novoCadastro.time.localizacao.cep;
+        if (cep){
+            utilsService.buscarLocalizacaoPeloCEP(cep).then(function(response){
+                var dadosLocalizacao = response.data;
+                
+                if(dadosLocalizacao){
+                    $scope.novoCadastro.time.localizacao.logradouro = dadosLocalizacao.logradouro;
+                    $scope.novoCadastro.time.localizacao.bairro = dadosLocalizacao.bairro;
+                    $scope.novoCadastro.time.localizacao.uf = dadosLocalizacao.estado;
+                    
+                    $scope.formControls.cboUF.val(dadosLocalizacao.estado);
+                    $scope.formControls.cboUF.selectpicker('refresh');
+                    
+                    $scope.carregarComboCidades().then(function(response){
+                        $scope.novoCadastro.time.localizacao.cidade = dadosLocalizacao.cidade;
+                        $scope.formControls.cboCidade.val(dadosLocalizacao.cidade);
+                        $scope.formControls.cboCidade.selectpicker('refresh');
+                    });
+                }
+
+                $scope.formControls.txtCEP.removeClass($scope.validator.settings.errorClass);
+            }, function(responseError){
+                    $scope.novoCadastro.time.localizacao = {
+                        cep: null,
+                        logradouro: null,
+                        complemento: null,
+                        bairro: null,
+                        uf: null,
+                        cidade: null
+                    };
+
+                    // Cep não encontardo
+                    if (responseError.status == 404){
+                        $scope.formControls.txtCEP.addClass($scope.validator.settings.errorClass);
+                        $scope.validator.showErrors({
+                            txtCEP: "CEP não encontrado"
+                        });
+                    }
+                    else{
+                        console.log(responseError);
+                        console.log('erro!');
+                        //## TRATAR
+                    }
+            });
+        }
     }
 
 	// init

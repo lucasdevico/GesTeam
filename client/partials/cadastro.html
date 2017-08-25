@@ -161,43 +161,46 @@
                                 <div class="col-md-7">
                                     <h4>Localização</h4>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label">CEP</label>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control" id="txtCEP" name="txtCEP"placeholder="CEP" ng-model="novoCadastro.time.localizacao.cep"/>
+                                        <label class="col-md-3 control-label">CEP</label>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" id="txtCEP" name="txtCEP"placeholder="CEP" ng-model="novoCadastro.time.localizacao.cep"
+                                            ng-blur="carregarLocalizacaoPorCEP()"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label">Logradouro</label>
+                                        <label class="col-md-3 control-label">Logradouro</label>
                                         <div class="col-md-7">
-                                            <input type="text" class="form-control" id="txtLogradouro" name="txtLogradouro"placeholder="Logradouro" ng-model="novoCadastro.time.localizacao.logradouro"/>
+                                            <input type="text" class="form-control" id="txtLogradouro" name="txtLogradouro"placeholder="Logradouro" ng-model="novoCadastro.time.localizacao.logradouro" disabled/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label">Complemento</label>
-                                        <div class="col-md-5">
-                                            <input type="text" class="form-control" id="txtComplemento" name="txtComplemento" placeholder="Complemento" ng-model="novoCadastro.time.localizacao.complemento"/>
+                                        <label class="col-md-3 control-label">Complemento</label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" id="txtComplemento" name="txtComplemento" placeholder="Complemento" ng-model="novoCadastro.time.localizacao.complemento" disabled/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label">Bairro</label>
-                                        <div class="col-md-5">
-                                            <input type="text" class="form-control" id="txtBairro" name="txtBairro" placeholder="Bairro" ng-model="novoCadastro.time.localizacao.bairro"/>
+                                        <label class="col-md-3 control-label">Bairro</label>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control" id="txtBairro" name="txtBairro" placeholder="Bairro" ng-model="novoCadastro.time.localizacao.bairro" disabled/>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label">UF</label>
+                                        <label class="col-md-3 control-label">UF</label>
                                         <div class="col-md-3">
                                             <select selectpicker id="cboUF" name="cboUF" class="form-control"
                                             ng-model="novoCadastro.time.localizacao.uf" 
-                                            ng-options="estado.estado as estado.estado for estado in lstEstados"
-                                            ng-change="carregarComboCidades()">
+                                            ng-change="carregarComboCidades()" disabled>
+                                                <option></option>
+                                                <option ng-repeat="estado in lstEstados" value="{{estado.estado}}">{{estado.estado}}</option>
                                             </select>
                                         </div>
                                         <label class="col-md-1 control-label">Cidade</label>
                                         <div class="col-md-4">
-                                            <select selectpicker id="cboCidade" name="cboCidade" class="form-control" 
+                                            <select selectpicker data-live-search="true" id="cboCidade" name="cboCidade" class="form-control" 
                                             ng-model="novoCadastro.time.localizacao.cidade"
-                                            ng-options="cidade.cidade as cidade.cidades for cidade in lstCidades">
+                                            ng-options="cidade as cidade for cidade in lstCidades track by cidade" disabled>
+                                                <option></option>
                                             </select>
                                         </div>
                                     </div>
