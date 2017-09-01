@@ -1,6 +1,6 @@
-app.factory('loginService', ['$http', 'ngAuthSettings', '$q', function($http, ngAuthSettings, $q){
+app.factory('loginService', ['$http', 'ngGesTeamSettings', '$q', function($http, ngGesTeamSettings, $q){
 	var loginServiceFactory = {};
-	var serviceBase = ngAuthSettings.apiServiceBaseUri;
+	var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
 	
 	var _logon = function(authenticationData){
 		var url = serviceBase + '/autenticar'

@@ -17,7 +17,7 @@
                     </div>
                     <!-- START WIZARD WITH VALIDATION -->
                     <div class="block">
-                        <form action="javascript:alert('Validated!');" role="form" class="form-horizontal" id="frmNovoCadastro">
+                        <form role="form" class="form-horizontal" id="frmNovoCadastro">
                         <div class="wizard show-submit wizard-validation">
                             <ul>
                                 <li>
@@ -57,9 +57,12 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Data de Nascimento</label>
                                     <div class="col-md-2">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control datepicker" id='txtDtNascimento' name='txtDtNascimento' placeholder="Data de Nascimento" ng-model="novoCadastro.usuario.dataNascimento">                                  
-                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        <div class="input-group input-group-sm date" 
+                                        datetimepicker-options="{format:'DD/MM/YYYY'}" datetimepicker 
+                                        ng-model="novoCadastro.usuario.dataNascimento">
+                                          <input type="text" class="form-control" id='txtDtNascimento'
+                                          name='txtDtNascimento' placeholder="Data de Nascimento"   />
+                                          <span class="input-group-addon clickable"><span class="fa fa-calendar"></span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -67,19 +70,24 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Email</label>
                                     <div class="col-md-3">
-                                        <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="Email" ng-model="novoCadastro.usuario.contato.email"/>
+                                        <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="Email" ng-model="novoCadastro.usuario.contato.email" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Login</label>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" id="txtLogin" name="txtLogin" placeholder="Login" ng-model="novoCadastro.usuario.login"/>
+                                    <div class="col-md-2 col-xs-11">
+                                        <input type="text" class="form-control" id="txtLogin" name="txtLogin" placeholder="Login" ng-model="novoCadastro.usuario.login" />
+                                    </div>
+                                    <div class="col-md-1 col-xs-1">
+                                        <span id="ttpLogin" class="fa fa-info-circle info-field" data-placement="top" data-container="body" data-toggle="popover" data-trigger="hover"
+                                        data-content="O login informado deve:<li>Iniciar com caracteres alfanuméricos<li>Caracteres especiais permitidos: _ ou ." >
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Senha</label>
                                     <div class="col-md-2">
-                                        <input type="password" class="form-control" id="txtSenha" name="txtSenha" placeholder="Senha" ng-model="novoCadastro.usuario.senha"/>
+                                        <input type="password" class="form-control" id="txtSenha" name="txtSenha" placeholder="Senha" ng-model="novoCadastro.usuario.senha" />
                                     </div>
                                     <label class="col-md-2 control-label">Confirmar Senha</label>
                                     <div class="col-md-2">
@@ -92,13 +100,13 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Telefone (1)</label>
                                     <div class="col-md-2">
-                                        <input type="telefone" class="form-control" id="txtTelefone1" name="txtTelefone1"placeholder="Telefone" ng-model="novoCadastro.usuario.contato.telefone1"/>
+                                        <input type="telefone" class="form-control mask-telefone" id="txtTelefone1" name="txtTelefone1"placeholder="Telefone" ng-model="novoCadastro.usuario.contato.telefone1"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Telefone (2)</label>
                                     <div class="col-md-2">
-                                        <input type="telefone" class="form-control" id="txtTelefone2" name="txtTelefone2" placeholder="Telefone" ng-model="novoCadastro.usuario.contato.telefone2"/>
+                                        <input type="telefone" class="form-control mask-telefone" id="txtTelefone2" name="txtTelefone2" placeholder="Telefone" ng-model="novoCadastro.usuario.contato.telefone2"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -127,9 +135,12 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Data de Fundação</label>
                                     <div class="col-md-2">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control datepicker" id='txtDtFundacao' name='txtDtFundacao' placeholder="Data Fundação" ng-model="novoCadastro.time.dataFundacao">                                  
-                                            <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                        <div class="input-group input-group-sm date" 
+                                        datetimepicker-options="{format:'DD/MM/YYYY'}" datetimepicker 
+                                        ng-model="novoCadastro.time.dataFundacao">
+                                          <input type="text" class="form-control" id='txtDtFundacao'
+                                          name='txtDtFundacao' placeholder="Data Fundação"   />
+                                          <span class="input-group-addon clickable"><span class="fa fa-calendar"></span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -162,21 +173,23 @@
                                     <h4>Localização</h4>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">CEP</label>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control" id="txtCEP" name="txtCEP"placeholder="CEP" ng-model="novoCadastro.time.localizacao.cep"
-                                            ng-blur="carregarLocalizacaoPorCEP()"/>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control field-custom-cep" id="txtCEP" name="txtCEP"placeholder="CEP" ng-model="novoCadastro.time.localizacao.cep" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">Logradouro</label>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <input type="text" class="form-control" id="txtLogradouro" name="txtLogradouro"placeholder="Logradouro" ng-model="novoCadastro.time.localizacao.logradouro" disabled/>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" id="txtNumero" name="txtNumero" placeholder="nº" ng-model="novoCadastro.time.localizacao.numero"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">Complemento</label>
                                         <div class="col-md-4">
-                                            <input type="text" class="form-control" id="txtComplemento" name="txtComplemento" placeholder="Complemento" ng-model="novoCadastro.time.localizacao.complemento" disabled/>
+                                            <input type="text" class="form-control" id="txtComplemento" name="txtComplemento" placeholder="Complemento" ng-model="novoCadastro.time.localizacao.complemento"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -187,7 +200,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">UF</label>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <select selectpicker id="cboUF" name="cboUF" class="form-control"
                                             ng-model="novoCadastro.time.localizacao.uf" 
                                             ng-change="carregarComboCidades()" disabled>
@@ -237,13 +250,13 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">Telefone (1)</label>
                                             <div class="col-md-4">
-                                                <input type="telefone" class="form-control" id="txtTimeTelefone1" name="txtTimeTelefone1"placeholder="Telefone" ng-model="novoCadastro.time.contato.telefone1"/>
+                                                <input type="telefone" class="form-contro mask-telefone" id="txtTimeTelefone1" name="txtTimeTelefone1"placeholder="Telefone" ng-model="novoCadastro.time.contato.telefone1"/>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">Telefone (2)</label>
                                             <div class="col-md-4">
-                                                <input type="telefone" class="form-control" id="txtTimeTelefone2" name="txtTimeTelefone2" placeholder="Telefone" ng-model="novoCadastro.time.contato.telefone1"/>
+                                                <input type="telefone" class="form-control mask-telefone" id="txtTimeTelefone2" name="txtTimeTelefone2" placeholder="Telefone" ng-model="novoCadastro.time.contato.telefone2"/>
                                             </div>
                                         </div>
                                         <div class="form-group">

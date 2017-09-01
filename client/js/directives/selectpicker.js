@@ -121,7 +121,7 @@ function selectpickerDirective($parse, $timeout) {
         var selectAsFn = selectAs && $parse(selectAs);
         var viewValueFn = selectAsFn || valueFn;
         var trackByFn = trackBy && $parse(trackBy);
-        
+
         // Get the value by which we are going to track the option
         // if we have a trackFn then use that (passing scope and locals)
         // otherwise just hash the given viewValue

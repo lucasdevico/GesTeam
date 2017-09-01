@@ -587,7 +587,7 @@ $(function() {
     $.mpb = function(action,options){
 
         var settings = $.extend({
-            state: '',            
+            state: 'success',            
             value: [0,0],
             position: '',
             speed: 20,

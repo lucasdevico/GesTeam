@@ -1,6 +1,6 @@
-app.factory('utilsService', ['$http', 'ngAuthSettings', '$q', function($http, ngAuthSettings, $q){
+app.factory('utilsService', ['$http', 'ngGesTeamSettings', '$q', function($http, ngGesTeamSettings, $q){
 	var utilsServiceFactory = {};
-	var serviceBase = ngAuthSettings.apiServiceBaseUri;
+	var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
 	
 	var _listarEstados = function(){
 		var url = serviceBase + '/utils/listarEstados';
@@ -19,7 +19,7 @@ app.factory('utilsService', ['$http', 'ngAuthSettings', '$q', function($http, ng
 	var _buscarLocalizacaoPeloCEP = function(_cep){
 		var url = ngAuthSettings.apiCorreiosBaseUri;
 		return $http.get(url + _cep).then(function(response) {
-		   return response;
+		 	return response;
 		});	
 	}
 

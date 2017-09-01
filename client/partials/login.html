@@ -3,11 +3,12 @@
     <div class="login-box animated fadeInDown">
         <div class="login-logo"></div>
         <div class="login-body">
-            <div id="notificacao-erro" class="alert alert-danger">
+            <div id="notificacao-erro" class="alert alert-danger alert-1">
                 <button type="button" class="close" onclick="$(this).parent().hide()"><span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
-                <strong>Oh não!</strong> {{mensagem}}
+                <strong>Oh não!&nbsp;</strong>
+                <span ng-bind-html='mensagem' />
             </div> 
             <form id="frmLogin" role="form" class="form-horizontal" method="post" novalidate>
             <div class="login-title"><strong>Acesse</strong> para gerenciar seu time</div>
@@ -49,11 +50,11 @@
                 <div class="login-title"><strong>Selecione</strong> qual time deseja gerenciar</div>
                 <!-- SELECIONAR TIME -->
                 <div class="panel panel-default">
-                    <div class="panel-body list-group list-group-contacts">                                
-                        <a href="#" class="list-group-item" ng-repeat="acesso in usuario.acessos">
+                    <div class="panel-body list-group list-group-times">                                
+                        <a class="list-group-item clickable" ng-repeat="acesso in usuario.acessos" ng-click="selecionarTime(acesso._time._id)">
                             <img ng-src="{{acesso._time.imagemSimbolo}}" class="pull-left" alt="{{acesso._time.nome}}"/>
                             <span class="contacts-title">{{acesso._time.nome}}</span>
-                            <p>{{acesso._time.descricao}}</p>         
+                            <p style="min-height: 20px;">{{acesso._time.nomeCompleto}}</p>         
                             <div class="list-group-controls">
                                 <button class="btn btn-primary btn-rounded"><span class="fa fa-cogs"></span></button>
                             </div>                                    

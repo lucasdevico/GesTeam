@@ -1,12 +1,28 @@
 'use strict';
-app.controller('CadastroController', function($scope, $http, $location, $rootScope, $window, utilsService, $q) {
+app.controller('CadastroController', function(
+        $scope, 
+        $http, 
+        $location, 
+        $rootScope, 
+        $window, 
+        utilsService, 
+        usuarioService, 
+        $q, 
+        ngGesTeamSettings,
+        $crypthmac
+){
 	// controles da pagina
 	$scope.formControls = {
         form: $("#frmNovoCadastro"),
         txtNome: $("#txtNome"),
+        txtEmail: $("#txtEmail"),
+        txtLogin: $("#txtLogin"),
+        ttpLogin: $("#ttpLogin"),
         txtDtNascimento: $("#txtDtNascimento"),
         txtTelefone1: $("#txtTelefone1"),
         txtTelefone2: $("#txtTelefone2"),
+        cboModalidade: $("#cboModalidade"),
+        cboQtdQuadros: $("#cboQtdQuadros"),
         txtDtFundacao: $("#txtDtFundacao"),
         divInformacoesContatoTime: $("#divInformacoesContatoTime"),
         divInformacoesContatoPessoais: $("#divInformacoesContatoPessoais"),
@@ -14,7 +30,8 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
         txtLogradouro: $("#txtLogradouro"),
         txtBairro: $("#txtBairro"),
         cboUF: $("#cboUF"),
-        cboCidade: $("#cboCidade")
+        cboCidade: $("#cboCidade"),
+        cbxUtilizarContatoPessoal: $("#cbxUtilizarContatoPessoal")
 	};
 
 	$scope.novoCadastro = {
@@ -33,13 +50,25 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
             }
 		},
         time: {
+            nome: null,
+            nomeCompleto: null,
+            dataFundacao: null,
+            modalidade: undefined,
+            qtdQuadros: undefined,
             localizacao: {
                 cep: null,
                 logradouro: null,
+                numero: null,
                 complemento: null,
                 bairro: null,
-                uf: null,
-                cidade: null
+                uf: undefined,
+                cidade: undefined
+            },
+            contato: {
+                email: null,
+                telefone1: null,
+                telefone2: null,
+                permiteSMS: false,
             }
         }
 	};
@@ -51,126 +80,271 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
 	// load
 	$scope.loadPage = function(){
 		initSmartWizard();
-		initDatepicker();
         initMasks();
         initValidation();
+        initPopover();
+        $scope.createCustomErrors();
         $scope.carregarComboUF();
         $scope.formControls.txtNome.focus();
+
+        //## DEBUG
+        $scope.novoCadastro = {"usuario":{"nome":"Lucas de Vico Souza","dataNascimento": null,"login":"lucas.devico","senha":"123456","confirmaSenha":"123456","contato":{"email":"lucas.devico@gmail.com","telefone1":"(11) 95169-4589","telefone2":null,"permiteSMS":true,"permiteEmail":true}},"time":{"nome":"Malibu","nomeCompleto":"Malibu Futsal","dataFundacao":"2007-03-28T03:00:00.000Z","modalidade":"Futsal","qtdQuadros":"2","localizacao":{"cep":"02072-001","logradouro":"Avenida Conceição","numero":"1310","complemento":"Apto. 4","bairro":"Carandiru","uf":"SP","cidade":"São Paulo"},"contato":{"email":"lucas.devico@gmail.com","telefone1":"(11) 95169-4589","telefone2":null,"permiteSMS":true,"permiteEmail":true},"status":"Aguardando Liberação","dataCadastro": null}};
 	};
 
-	$scope.fecharCadastro = function(){
-        $location.path('/login');
-    };
+    var initPopover = function(){
+        $("[data-toggle=popover]").popover({ html:true });
+    }
+
+    $scope.createCustomErrors = function(){
+        // uniqueLogin -> Validar se o login informado já está em uso
+        $.validator.addMethod("uniqueLogin",
+          function(value, element){
+            $rootScope.initLoading();
+            var isValid = false;
+            var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
+            $.ajax({ url: serviceBase + '/usuario/verificarLoginExistente/' + value, 
+                async: false, 
+                success: 
+                    function(msg) { 
+                        isValid = !msg;
+                        $rootScope.completeLoading();
+                    },
+                error:
+                    function(err){
+                        $rootScope.cancelLoading();
+                        $rootScope.openModalError();
+                    }
+            });
+            return isValid;
+          },
+          "O login informado já está sendo utilizado."
+        );
+
+        // patternLogin -> Validar se o login possui os caracteres permitidos
+        $.validator.addMethod("patternLogin",
+          function(value, element){
+            $rootScope.initLoading();
+            var isValid = false;
+            var regex = ngGesTeamSettings.regexLogin;
+            isValid = value.match(regex);
+            $rootScope.completeLoading();
+            return isValid;
+          },
+          "O login informado não é valido."
+        );
+
+        // uniqueEmail -> Validar se o email informado já está em uso
+        $.validator.addMethod("uniqueEmail",
+          function(value, element){
+            $rootScope.initLoading();
+            var isValid = false;
+            var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
+            $.ajax({ url: serviceBase + '/usuario/verificarEmailExistente/' + value, 
+                async: false, 
+                success: 
+                    function(response) { 
+                        isValid = !response;
+                        $rootScope.completeLoading();
+                    },
+                error:
+                    function(err){
+                        $rootScope.cancelLoading();
+                        $rootScope.openModalError();
+                    }
+            });
+            return isValid;
+          },
+          "O email informado já existe em nosso sistema"
+        );
+
+        // uniqueNomeTime -> Validar se o nome do time é unico
+        $.validator.addMethod("uniqueNomeTime",
+          function(value, element){
+            $rootScope.initLoading();
+            var isValid = false;
+            var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
+            $.ajax({ url: serviceBase + '/time/verificarNomeTimeExistente/' + value, 
+                async: false, 
+                success: 
+                    function(response) { 
+                        isValid = !response;
+                        $rootScope.completeLoading();
+                    },
+                error:
+                    function(err){
+                        $rootScope.cancelLoading();
+                        $rootScope.openModalError();
+                    }
+            });
+            return isValid;
+          },
+          "O Nome informado já está sendo utilizado."
+        );
+
+        // validaCep -> Validar se o email informado já está em uso
+        $.validator.addMethod("validaCep",
+          function(value, element){
+            $rootScope.initLoading();
+            var isValid = false;
+            var serviceBase = ngGesTeamSettings.apiCorreiosBaseUri;
+            // Se não existir _, então o cep está completamente preenchido
+            if (value.indexOf("_") == -1){
+                $.ajax({ url: serviceBase + value, 
+                async: false, 
+                success: 
+                    function(response) { 
+                        var dadosLocalizacao = response;
+
+                        if(dadosLocalizacao){
+                            $scope.novoCadastro.time.localizacao.logradouro = dadosLocalizacao.logradouro;
+                            $scope.novoCadastro.time.localizacao.bairro = dadosLocalizacao.bairro;
+                            $scope.novoCadastro.time.localizacao.uf = dadosLocalizacao.estado;
+                            
+                            $scope.formControls.cboUF.val(dadosLocalizacao.estado);
+                            $scope.formControls.cboUF.selectpicker('refresh');
+                            
+                            $scope.lstCidades.push(dadosLocalizacao.cidade);
+                            $scope.novoCadastro.time.localizacao.cidade = dadosLocalizacao.cidade;
+                            $scope.formControls.cboCidade.val(dadosLocalizacao.cidade);
+                            $scope.formControls.cboCidade.selectpicker('refresh');
+                            isValid = true;
+                        }
+                        $rootScope.completeLoading();
+                    },
+                error:
+                    function(responseError){
+                        // Cep não encontardo
+                        if (responseError.status == 404){
+                            $rootScope.completeLoading();
+                            isValid = false;
+                        }
+                        else if (responseError.status == 503){
+                            var erro = "503 - Serviço indisponível.";
+                            var detalhes = "Não foi possível obter as informações de endereço. Por favor, tente novamente mais tarde.";
+                            $rootScope.openModalError(erro, detalhes);
+                        }
+                        else{
+                            $rootScope.openModalError();
+                        }
+                    }
+                });
+            }
+            else{
+                    $scope.novoCadastro.time.localizacao = {
+                        cep: null,
+                        logradouro: null,
+                        complemento: null,
+                        bairro: null,
+                        uf: null,
+                        cidade: null
+                    };
+            }
+
+            return isValid;
+          },
+          "CEP inválido ou não encontrado"
+        );
+    }
 
     var initValidation = function(){
-        // This par of code used for example
-            if($scope.formControls.form.length > 0){
-                $scope.validator = $scope.formControls.form.validate({
-                        rules: {
-                            /*
-                            //## Step 1
-                            txtNome: {
-                                required: true
-                            },
-                            txtDtNascimento: {
-                                required: true,
-                                date: true
-                            },
-                            txtEmail: {
-                                required: true,
-                                email: true
-                            },
-                            txtLogin: {
-                                required: true
-                            },
-                            txtSenha: {
-                                required: true,
-                                minlength: 6,
-                                maxlength: 10,
-                            },
-                            txtConfirmaSenha: {
-                                required: true,
-                                minlength: 6,
-                                maxlength: 10,
-                                equalTo: "#txtSenha"
-                            },
+        if($scope.formControls.form.length > 0){
+            $scope.validator = $scope.formControls.form.validate({
+                    rules: {
+                        
+                        //## Step 1
+                        txtNome: {
+                            required: true
+                        },
+                        txtDtNascimento: {
+                            required: true,
+                            date: true
+                        },
+                        txtEmail: {
+                            required: true,
+                            email: true,
+                            uniqueEmail: true
+                        },
+                        txtLogin: {
+                            required: true,
+                            minlength: 6,
+                            maxlength: 24,
+                            patternLogin: true,
+                            uniqueLogin: true
+                        },
+                        txtSenha: {
+                            required: true,
+                            minlength: 6,
+                            maxlength: 12,
+                        },
+                        txtConfirmaSenha: {
+                            required: true,
+                            minlength: 6,
+                            maxlength: 12,
+                            equalTo: "#txtSenha"
+                        },
 
-                            //## Step 2
-                            txtTelefone1: {
-                                required: true
-                            },
+                        //## Step 2
+                        txtTelefone1: {
+                            required: true
+                        },
 
-                            //## Step 3
-                            txtNomeTime: {
-                                required: true
-                            },
-                            txtNomeCompletoTime: {
-                                required: true
-                            },
-                            cboModalidade: {
-                                required: true
-                            },
-                            cboQtdQuadros: {
-                                required: true
-                            },
-
-                            //## Step 4
-                            txtCEP: {
-                                required: true
-                            },
-                            txtLogradouro: {
-                                required: true
-                            },
-                            txtBairro: {
-                                required: true
-                            },
-                            cboUF: {
-                                required: true
-                            },
-                            cboCidade: {
-                                required: true
-                            },
-                            txtTimeEmail: {
-                                required: true,
-                                email: true
-                            },
-                            txtTimeTelefone1: {
-                                required: true
-                            }
-                            */
+                        //## Step 3
+                        txtNomeTime: {
+                            required: true,
+                            uniqueNomeTime: true
+                        },
+                        txtNomeCompletoTime: {
+                            required: true
+                        },
+                        txtDtFundacao: {
+                            required: true,
+                            date: true
+                        },
+                        cboModalidade: {
+                            required: true
+                        },
+                        cboQtdQuadros: {
+                            required: true
+                        },
+                        
+                        //## Step 4
+                        txtCEP: {
+                            required: true,
+                            validaCep: true
+                        },
+                        txtLogradouro: {
+                            required: true
+                        },
+                        txtNumero: {
+                            required: true
+                        },
+                        txtBairro: {
+                            required: true
+                        },
+                        cboUF: {
+                            required: true
+                        },
+                        cboCidade: {
+                            required: true
+                        },
+                        txtTimeEmail: {
+                            required: true,
+                            email: true
+                        },
+                        txtTimeTelefone1: {
+                            required: true
                         }
-                    });
-            }
+                    }
+                });
+        }
     };
-
-    var initDatepicker = function(){    
-        $(".datepicker").datetimepicker({
-            format: 'DD/MM/YYYY',
-            locale: 'pt-br',
-            useCurrent: false
-        });
-    }
 
     var initMasks = function(){
         $scope.formControls.txtCEP.mask('99999-999');
         $scope.formControls.txtDtNascimento.mask("99/99/9999");
         $scope.formControls.txtDtFundacao.mask("99/99/9999");
 
-        $scope.formControls.txtTelefone1.mask("(99) 9999-9999?9")
-            .focusout(function (event) {  
-                var target, phone, element;  
-                target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
-                phone = target.value.replace(/\D/g, '');
-                element = $(target);  
-                element.unmask();  
-                if(phone.length > 10) {  
-                    element.mask("(99) 99999-999?9");  
-                } else {  
-                    element.mask("(99) 9999-9999?9");  
-                }  
-            });
-
-        $scope.formControls.txtTelefone2.mask("(99) 9999-9999?9")
+        $(".mask-telefone").mask("(99) 9999-9999?9")
             .focusout(function (event) {  
                 var target, phone, element;  
                 target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
@@ -198,15 +372,27 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
             setTimeout(function(){
                $(".wizard").smartWizard({        
                 // fix para ajuste automático de altura após a validação
+                //selected: 2,
                 updateHeight: false,
                 keyNavigation: false,
+                onFinish: function(){
+                    $scope.cadastrar();
+                },
                 // This part of code can be removed FROM
-                onLeaveStep: function(obj){
+                onLeaveStep: function(obj, objTo){
                     var wizard = obj.parents(".wizard");
+
+                    var currentStep = obj.attr('rel');
+                    var nextStep = objTo.attr('rel');
 
                     if(wizard.hasClass("wizard-validation")){
                         
                         var valid = true;
+
+                        // Se for "voltar" então não faz validações.
+                        if (currentStep > nextStep){
+                            return true;
+                        }
                         
                         $('input,textarea',$(obj.attr("href"))).each(function(i,v){
                             valid = $scope.validator.element(v) && valid;
@@ -214,7 +400,7 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
                                                     
                         if(!valid){
                             wizard.find(".stepContainer").removeAttr("style");
-                            validator.focusInvalid();                                
+                            $scope.validator.focusInvalid();                                
                             return false;
                         }         
                         
@@ -244,6 +430,10 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
         
     }// End Smart Wizard
 
+    $scope.fecharCadastro = function(){
+        $location.path('/login');
+    };
+
     $scope.configurarContatoTime = function($event){
         var checkbox = $event.target;
         var action = (checkbox.checked ? 'PESSOAL' : 'TIME');
@@ -263,8 +453,7 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
                 $scope.lstEstados = response.data;
             },
             function (responseError) {
-                console.log('erro!');
-                //## TRATAR
+                $rootScope.openModalError();
         });
     }
 
@@ -273,69 +462,44 @@ app.controller('CadastroController', function($scope, $http, $location, $rootSco
         $scope.lstCidades = [];
         var siglaEstado = $scope.novoCadastro.time.localizacao.uf;
 
-        var deferred = $q.defer();
-
         if (siglaEstado){
             utilsService.listarCidades(siglaEstado).then(function (response) {
                     if (response.data){
                         $scope.lstCidades = response.data[0].cidades;
                     }
-                    deferred.resolve(response);
                 },
                 function (responseError) {
-                    deferred.reject(responseError);
-                    console.log('erro!');
-                    //## TRATAR
+                    $rootScope.openModalError();
             });
         }
-
-        return deferred.promise;
     }
 
-    $scope.carregarLocalizacaoPorCEP = function(){
-        var cep = $scope.novoCadastro.time.localizacao.cep;
-        if (cep){
-            utilsService.buscarLocalizacaoPeloCEP(cep).then(function(response){
-                var dadosLocalizacao = response.data;
-                
-                if(dadosLocalizacao){
-                    $scope.novoCadastro.time.localizacao.logradouro = dadosLocalizacao.logradouro;
-                    $scope.novoCadastro.time.localizacao.bairro = dadosLocalizacao.bairro;
-                    $scope.novoCadastro.time.localizacao.uf = dadosLocalizacao.estado;
-                    
-                    $scope.formControls.cboUF.val(dadosLocalizacao.estado);
-                    $scope.formControls.cboUF.selectpicker('refresh');
-                    
-                    $scope.carregarComboCidades().then(function(response){
-                        $scope.novoCadastro.time.localizacao.cidade = dadosLocalizacao.cidade;
-                        $scope.formControls.cboCidade.val(dadosLocalizacao.cidade);
-                        $scope.formControls.cboCidade.selectpicker('refresh');
-                    });
-                }
+    $scope.cadastrar = function(){
+        if ($scope.formControls.form.valid()){
 
-                $scope.formControls.txtCEP.removeClass($scope.validator.settings.errorClass);
-            }, function(responseError){
-                    $scope.novoCadastro.time.localizacao = {
-                        cep: null,
-                        logradouro: null,
-                        complemento: null,
-                        bairro: null,
-                        uf: null,
-                        cidade: null
-                    };
+            // Define os valores inicias
+            $scope.novoCadastro.time.status = 'Aguardando Liberação';
+            $scope.novoCadastro.time.dataCadastro = new Date();
 
-                    // Cep não encontardo
-                    if (responseError.status == 404){
-                        $scope.formControls.txtCEP.addClass($scope.validator.settings.errorClass);
-                        $scope.validator.showErrors({
-                            txtCEP: "CEP não encontrado"
-                        });
-                    }
-                    else{
+            if ($scope.formControls.cbxUtilizarContatoPessoal.prop("checked")){
+                $scope.novoCadastro.time.contato = $scope.novoCadastro.usuario.contato;
+            }
+
+            $scope.novoCadastro.usuario.senha = $crypthmac.encrypt($scope.novoCadastro.usuario.senha);
+
+            usuarioService.cadastrar($scope.novoCadastro).then(function (response) {
+                        var msg = "Seu cadastro foi efetuado com sucesso.";
+                        var msgDetalhes = "Nossa equipe irá analisar as informações e em breve você receberá um email com a liberação do acesso ao sistema.";
+                        var fnCallback =  function(){
+                            $location.path('/login'); 
+                            $scope.$apply();
+                        };
+
+                        $rootScope.openModalSuccess(msg, msgDetalhes, fnCallback);
+                    },
+                    function (responseError) {
                         console.log(responseError);
-                        console.log('erro!');
-                        //## TRATAR
-                    }
+                        $rootScope.openModalError();
             });
         }
     }

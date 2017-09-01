@@ -64,7 +64,7 @@ var schema = mongoose.Schema({
 	imagemSimbolo: {
 		type: String,
 		required: false,
-		default: '../imagem/semsimbolo.png'
+		default: '../img/simbolos/semsimbolo.png'
 	},
 	coresUniforme1: {
 		type: String,

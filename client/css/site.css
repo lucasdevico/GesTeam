@@ -1,3 +1,19 @@
+.alert-1{
+  padding: 5px 15px;
+  line-height: 16px;
+}
+
+.popover {
+  font-size: 11px;
+}
+
+.info-field{
+  font-size: 20px;
+  color: #1caf9a;
+  margin-left: -15px;
+  margin-top: 5px;
+}
+
 .clickable{
 	cursor: pointer;
 }
@@ -24,4 +40,11 @@
 .modal-login .page-content-wrap{
 	/*width: 80%;
     margin: 0px 10%;*/
+}
+
+@media only screen and (min-width: 768px)
+{
+  .field-custom-cep{
+    width: 40%;
+  }
 }

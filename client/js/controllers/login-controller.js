@@ -1,5 +1,5 @@
 'use strict';
-app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginService', '$window', function($scope, $location, $rootScope, loginService, $window) {
+app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginService', '$window', '$crypthmac', function($scope, $location, $rootScope, loginService, $window, $crypthmac) {
     var me = $scope;
     $scope.usuario = {};
     $scope.mensagem = '';
@@ -15,6 +15,12 @@ app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginSe
         $scope.formControls.notificacao.hide();
         $scope.formControls.frmSelecionarTime.hide();
         initValidation();
+
+        // if($rootScope.usuario){
+        //     $scope.usuario = $rootScope.usuario;
+        //     $scope.formControls.frmLogin.hide();
+        //     $scope.formControls.frmSelecionarTime.fadeIn(1000);
+        // }
     };
 
     $scope.cadastro = function(){
@@ -32,7 +38,7 @@ app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginSe
 
             var authenticationData = {
                 login: usuarioLogin.login,
-                senha: usuarioLogin.senha
+                senha: $crypthmac.encrypt(usuarioLogin.senha)
             };
 
             loginService.logon(authenticationData).then(function(response){
@@ -49,11 +55,6 @@ app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginSe
                 // Exibe lista para seleção de time
                 $scope.formControls.frmLogin.hide();
                 $scope.formControls.frmSelecionarTime.fadeIn(1000);
-
-                // Verifica status do time selecionado
-                
-                // Direciona o usuário para página principal do sistema
-                //$location.path('/');
             },
             function(responseError){
                 $rootScope.usuario = $scope.usuario = {};
@@ -69,10 +70,38 @@ app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginSe
         }
     };
 
+    $scope.selecionarTime = function(_idTime){
+        $rootScope.initLoading();
+        $scope.formControls.notificacao.hide();
+        $rootScope.usuario.timeSelecionado = _idTime;
+
+        // Obter acesso ao time selecionado
+        var acesso = JSON.parse(JSON.stringify($.grep($rootScope.usuario.acessos, function(x){
+            return x._time._id == _idTime;
+        })[0]));
+
+        // Verificar status do time selecionado
+        if (acesso._time.status == "Ativo"){
+            // Direciona o usuário para página principal do sistema
+            $location.path('/Principal');
+        }
+        else if (acesso._time.status == "Aguardando Liberação"){
+            $scope.mensagem = 'O acesso a este time ainda não foi liberado.';
+            $scope.formControls.notificacao.show();
+        }
+        else{
+            $scope.mensagem = 'Não é possível completar o acesso.<br />Status do Time: ' + acesso._time.status;
+            $scope.formControls.notificacao.show();
+        }
+
+        $rootScope.completeLoading();
+    }
+
     $scope.cancelarSelecionarTime = function (){
         $rootScope.usuario = $scope.usuario = {};
         delete $window.sessionStorage.token
         $scope.formControls.frmSelecionarTime.hide();
+        $scope.formControls.notificacao.hide();
         $scope.formControls.frmLogin.fadeIn(1000);
         $scope.formControls.txtLogin.focus();
     }
