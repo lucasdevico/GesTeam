@@ -414,6 +414,7 @@ $(function() {
        
         $(window).resize(function(){
             if($(".owl-carousel").length > 0){
+                console.log($(".owl-carousel"));
                 $(".owl-carousel").data('owlCarousel').destroy();
                 uiOwlCarousel();
             }

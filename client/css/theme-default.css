@@ -651,7 +651,7 @@ body.page-container-boxed .page-container {
   padding: 10px 5px;
 }
 .x-navigation.x-navigation-horizontal .xn-search input {
-  width: 100px;
+  width: 110px;
 }
 .x-navigation.x-navigation-horizontal .xn-search input:focus {
   width: 200px;
@@ -2696,7 +2696,7 @@ blockquote.pull-right {
 .padding-top-0 {
   padding-top: 0px !important;
 }
-.text-muted {
+.text-muted-2 {
   color: #CCD0D9 !important;
 }
 .text-primary {
@@ -7333,4 +7333,14 @@ li.ext_zip {
 }
 .x-navigation-minimized .xn-logo{
 display:none;
+}
+
+.x-navigation.x-navigation-horizontal .xn-icon-with-label > a {
+  padding: 15px 10px;
+  text-align: center;
+  width: 50px;
+}
+.x-navigation.x-navigation-horizontal .xn-icon-with-label > a .fa,
+.x-navigation.x-navigation-horizontal .xn-icon-with-label > a .glyphicon {
+  margin: 0px;
 }

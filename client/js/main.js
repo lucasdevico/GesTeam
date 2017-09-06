@@ -4,7 +4,8 @@ var app = angular.module('gesteam', [
     'ngResource', 
     'LocalStorageModule',
     'angular-hmac-sha512',
-    'ngSanitize']);
+    'ngSanitize',
+    'angular-jwt']);
 
 // Settings
 var serviceBase = 'http://localhost:3000';
@@ -19,12 +20,22 @@ app.config(function($routeProvider, $locationProvider) {
         controller: 'LoginController'
     }); 
 
+    $routeProvider.when('/login/selecionar-time', {
+        templateUrl: 'partials/login.html',
+        controller: 'LoginController'
+    }); 
+
     $routeProvider.when('/cadastro', {
         templateUrl: 'partials/cadastro.html',
         controller: 'CadastroController'
     }); 
 
-    $routeProvider.otherwise({redirectTo: '/'});
+    $routeProvider.when('/principal', {
+        templateUrl: 'partials/principal.html',
+        controller: 'PrincipalController'
+    }); 
+
+    $routeProvider.otherwise({redirectTo: '/login'});
 
 });
 
@@ -35,6 +46,11 @@ app.config(['$crypthmacProvider', function ($crypthmacProvider) {
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('tokenInterceptor');
 });
+
+app.run(['loginService', function (loginService) {
+    loginService.preencherDadosAutenticacao();
+}]);
+
 
 app.run(function($rootScope){
 

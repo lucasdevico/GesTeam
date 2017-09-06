@@ -19,12 +19,12 @@
             <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
             <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
             <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>        
-            <script type="text/javascript"  src="js/plugins/angular/angular.min.js"></script>
-            <script type="text/javascript"  src="js/plugins/angular/angular-animate.min.js"></script>
-            <script type="text/javascript"  src="js/plugins/angular/angular-route.min.js"></script>
-            <script type="text/javascript"  src="js/plugins/angular/angular-resource.min.js"></script>
-            <script type="text/javascript"  src="js/plugins/angular/angular-local-storage.min.js"></script>
-            <script type="text/javascript"  src="js/plugins/angular/angular-sanitize.js"></script>
+            <script type="text/javascript" src="js/plugins/angular/angular.min.js"></script>
+            <script type="text/javascript" src="js/plugins/angular/angular-animate.min.js"></script>
+            <script type="text/javascript" src="js/plugins/angular/angular-route.min.js"></script>
+            <script type="text/javascript" src="js/plugins/angular/angular-resource.min.js"></script>
+            <script type="text/javascript" src="js/plugins/angular/angular-local-storage.min.js"></script>
+            <script type="text/javascript" src="js/plugins/angular/angular-sanitize.js"></script>
             <script type='text/javascript' src='js/plugins/jquery-validation/jquery.validate.js'></script>
             <script type='text/javascript' src='js/plugins/jquery-validation/jquery.validate.pt_br.js'></script>
             <script type='text/javascript' src='js/plugins/maskedinput/jquery.maskedinput.min.js'></script>
@@ -35,6 +35,7 @@
             <script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script>
             <script type="text/javascript" src="js/plugins/smartwizard/jquery.smartWizard-2.0.min.js"></script>
             <script type="text/javascript" src="js/plugins/angular/angular-hmac-sha512.js"></script>
+            <script type="text/javascript" src="js/plugins/angular/angular-jwt.js"></script>
             <!-- END PLUGINS -->
 
             <!-- START APP -->
@@ -44,11 +45,14 @@
             <!-- START CONTROLLERS -->
             <script src="js/controllers/login-controller.js"></script>
             <script src="js/controllers/cadastro-controller.js"></script>
+            <script src="js/controllers/principal-controller.js"></script>
             <!-- END CONTROLLERS -->
 
             <!-- START DIRETIVAS -->
             <script src="js/directives/selectpicker.js"></script>
             <script src="js/directives/datetimepicker.js"></script>
+            <script src="js/directives/menuPrincipal.js"></script>
+            <script src="js/directives/barraStatus.js"></script>
             <!-- END DIRETIVAS -->
 
             <!-- START SERVIÇOS -->
@@ -119,8 +123,8 @@
                     </div>
                     <div class="mb-footer">
                         <div class="pull-right">
-                            <a href="pages-login.html" class="btn btn-success btn-lg">Sim</a>
-                            <button class="btn btn-default btn-lg mb-control-close">Não</button>
+                            <button class="btn btn-success btn-lg mb-control-logout clickable">Sim</button>
+                            <button class="btn btn-default btn-lg mb-control-close clickable">Não</button>
                         </div>
                     </div>
                 </div>

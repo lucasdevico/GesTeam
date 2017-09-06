@@ -17,7 +17,7 @@ module.exports = function(app) {
              if (!usuario) {
                  res.sendStatus(401);
              } else {
-                 var token = jwt.sign( {login: usuario.login}, app.get('secret'), {
+                 var token = jwt.sign( {usuarioLogado: usuario}, app.get('secret'), {
                      expiresIn: 86400 // valor em segundo, aqui temos um total de 24 horas
                  });
                  res.set('x-access-token', token); // adicionando token no cabeçalho de resposta
@@ -27,8 +27,8 @@ module.exports = function(app) {
      };
 
     api.verificaToken = function(req, res, next) {
-
          var token = req.headers['x-access-token']; // busca o token no header da requisição
+         console.log('Obtendo Token do Header', req.url, token);
 
          if (token) {
              console.log('Token recebido, decodificando');
