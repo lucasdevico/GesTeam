@@ -11,16 +11,24 @@ app.directive('barraStatus', function($location, loginService) {
 	ddo.templateUrl = 'js/directives/templates/barraStatus.html';
 
 	ddo.link = function(scope, element, attrs){
-		initXNavigationPanel();
+		var html_click_avail = true;
+		$("html").on("click", function(){
+        	if(html_click_avail)
+            	$(".x-navigation-horizontal li,.x-navigation-minimized li").removeClass('active');        
+    	});        
+
+    	$(window).resize(function(){
+		    x_navigation_onresize();
+		    page_content_onresize();
+		});
+
+		x_navigation_onresize();    
+		page_content_onresize();
+		initX_navigation();
+
 		initMessageBoxLogoutControl(scope);
 	}
 
-	var initXNavigationPanel = function(){
-		$(".x-navigation-horizontal .panel").on("click",function(e){
-        	e.stopPropagation();
-    	});  
-	    x_navigation();
-	}
 
 	var initMessageBoxLogoutControl = function(scope){
 		$(".mb-control").on("click",function(){

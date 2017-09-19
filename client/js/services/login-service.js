@@ -3,7 +3,7 @@ app.factory('loginService', function($http, ngGesTeamSettings, $q, $window, jwtH
 	var loginServiceFactory = {};
 	var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
 
-	var _usuarioLogado = null;
+	var _usuarioLogado = undefined;
 	
 	var _logon = function(authenticationData){
 		var url = serviceBase + '/autenticar'
@@ -67,13 +67,17 @@ app.factory('loginService', function($http, ngGesTeamSettings, $q, $window, jwtH
 	};
 
 	var _logout = function(){
-		_usuarioLogado = {};
+		_usuarioLogado = undefined;
 		delete $window.sessionStorage.token;
 		delete $window.sessionStorage.timeSelecionado;
 		$location.path('/login');
 	}
 
-	loginServiceFactory.usuarioLogado = function() { return _usuarioLogado; };
+	var _obterUsuarioLogado = function(){
+		return _usuarioLogado;
+	}
+
+	loginServiceFactory.usuarioLogado = _obterUsuarioLogado;
 	loginServiceFactory.logon = _logon;
 	loginServiceFactory.preencherDadosAutenticacao = _preencherDadosAutenticacao;
 	loginServiceFactory.selecionarTime = _selecionarTime;

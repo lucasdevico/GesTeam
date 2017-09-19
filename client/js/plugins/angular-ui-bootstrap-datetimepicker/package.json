@@ -1,0 +1,84 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "angular-ui-bootstrap-datetimepicker",
+        "scope": null,
+        "escapedName": "angular-ui-bootstrap-datetimepicker",
+        "name": "angular-ui-bootstrap-datetimepicker",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Projetos\\GesTeam\\server"
+    ]
+  ],
+  "_from": "angular-ui-bootstrap-datetimepicker@latest",
+  "_id": "angular-ui-bootstrap-datetimepicker@2.5.0",
+  "_inCache": true,
+  "_location": "/angular-ui-bootstrap-datetimepicker",
+  "_nodeVersion": "4.2.6",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/angular-ui-bootstrap-datetimepicker-2.5.0.tgz_1493336825190_0.7192266224883497"
+  },
+  "_npmUser": {
+    "name": "zhaber",
+    "email": "vitalii.fed@gmail.com"
+  },
+  "_npmVersion": "3.5.2",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "angular-ui-bootstrap-datetimepicker",
+    "scope": null,
+    "escapedName": "angular-ui-bootstrap-datetimepicker",
+    "name": "angular-ui-bootstrap-datetimepicker",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/angular-ui-bootstrap-datetimepicker/-/angular-ui-bootstrap-datetimepicker-2.5.0.tgz",
+  "_shasum": "ea97a534fa1951ae465c0c9cd258cf58f3248ee9",
+  "_shrinkwrap": null,
+  "_spec": "angular-ui-bootstrap-datetimepicker",
+  "_where": "C:\\Projetos\\GesTeam\\server",
+  "author": {
+    "name": "Vitalii Fedorenko"
+  },
+  "dependencies": {
+    "angular": ">=1.4.4",
+    "angular-ui-bootstrap": ">=1.2.4"
+  },
+  "description": "Date-time picker AngularJS Bootstrap plugin",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "ea97a534fa1951ae465c0c9cd258cf58f3248ee9",
+    "tarball": "https://registry.npmjs.org/angular-ui-bootstrap-datetimepicker/-/angular-ui-bootstrap-datetimepicker-2.5.0.tgz"
+  },
+  "gitHead": "f6527f675bb0888334f3c24e814caaeb247d87c1",
+  "keywords": [
+    "date",
+    "time",
+    "picker",
+    "angularjs",
+    "bootstrap"
+  ],
+  "license": "MIT",
+  "main": "datetimepicker.js",
+  "maintainers": [
+    {
+      "name": "zhaber",
+      "email": "fedorenko.v@gmail.com"
+    }
+  ],
+  "name": "angular-ui-bootstrap-datetimepicker",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {},
+  "style": "datetimepicker.css",
+  "version": "2.5.0"
+}

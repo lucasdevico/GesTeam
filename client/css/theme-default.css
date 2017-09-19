@@ -3,6 +3,7 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,500,600,700&subset=latin,latin-ext);
 @import "jquery/jquery-ui.min.css";
 @import "bootstrap/bootstrap.min.css";
+@import "angular-bootstrap-colorpicker/bootstrap-colorpicker.css";
 @import "fontawesome/font-awesome.min.css";
 @import "summernote/summernote.css";
 @import "codemirror/codemirror.css";
@@ -13,7 +14,7 @@
 @import "rickshaw/rickshaw.css";
 @import "dropzone/dropzone.css";
 @import "animate/animate.min.css";
-
+/*@import "angular-bootstrap-datetimepicker/datetimepicker.css";*/
 
 /* PREDEFINED CLASSES */
 .clearfix {
@@ -39,6 +40,11 @@
 html * {
   outline: none !important;
 }
+/*
+html, body {
+  height: 100%;
+}
+*/
 html,
 body {
   min-height: 100%;
@@ -51,10 +57,7 @@ body {
   color: #22262e;
   overflow-x: hidden;
 }
-/* Fix Angular */
-html, body, .ng-scope {
-  height: 100%;
-}
+
 .body-full-height {
   height: 100%;
 }

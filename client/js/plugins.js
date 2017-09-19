@@ -30,20 +30,20 @@ $(function() {
         // END Daterangepicker
         
         //Bootstrap colopicker        
-        var feColorpicker = function(){
-            // Default colorpicker hex
-            if($(".colorpicker").length > 0)
-                $(".colorpicker").colorpicker({format: 'hex'});
+        // var feColorpicker = function(){
+        //     // Default colorpicker hex
+        //     if($(".colorpicker").length > 0)
+        //         $(".colorpicker").colorpicker({format: 'hex'});
             
-            // RGBA mode
-            if($(".colorpicker_rgba").length > 0)
-                $(".colorpicker_rgba").colorpicker({format: 'rgba'});
+        //     // RGBA mode
+        //     if($(".colorpicker_rgba").length > 0)
+        //         $(".colorpicker_rgba").colorpicker({format: 'rgba'});
             
-            // Sample
-            if($("#colorpicker").length > 0)
-                $("#colorpicker").colorpicker();
+        //     // Sample
+        //     if($("#colorpicker").length > 0)
+        //         $("#colorpicker").colorpicker();
             
-        }// END Bootstrap colorpicker
+        // }// END Bootstrap colorpicker
         
         //Bootstrap select
         // var feSelect = function(){
@@ -136,19 +136,19 @@ $(function() {
         // END iCheckbox
         
         //Bootstrap file input
-        var feBsFileInput = function(){
+        // var feBsFileInput = function(){
             
-            if($("input.fileinput").length > 0)
-                $("input.fileinput").bootstrapFileInput();
+        //     if($("input.fileinput").length > 0)
+        //         $("input.fileinput").bootstrapFileInput();
             
-        }
+        // }
         //END Bootstrap file input
         
         return {// Init all form element features
 		init: function(){                    
                     //feDatepicker();                    
                     feTimepicker();
-                    feColorpicker();
+                    //feColorpicker();
                     //feSelect();
                     //feValidation();
                     feMasked();
@@ -156,7 +156,7 @@ $(function() {
                     fePopover();
                     feTagsinput();
                     feiCheckbox();
-                    feBsFileInput();
+                    //feBsFileInput();
                     feDaterangepicker();
                 }
         }
@@ -338,13 +338,14 @@ $(function() {
         }// End Smart Wizard
         
         //OWL Carousel
-        var uiOwlCarousel = function(){
+        // var uiOwlCarousel = function(){
             
-            if($(".owl-carousel").length > 0){
-                $(".owl-carousel").owlCarousel({mouseDrag: false, touchDrag: true, slideSpeed: 300, paginationSpeed: 400, singleItem: true, navigation: false,autoPlay: true});
-            }
+        //     if($(".owl-carousel").length > 0){
+        //         $(".owl-carousel").owlCarousel({mouseDrag: false, touchDrag: true, slideSpeed: 300, paginationSpeed: 400, singleItem: true, navigation: false,autoPlay: true});
+        //     }
             
-        }//End OWL Carousel
+        // }
+        //End OWL Carousel
         
         // Summernote 
         var uiSummernote = function(){
@@ -396,13 +397,14 @@ $(function() {
         }// END Summernote 
         
         // Custom Content Scroller
-        var uiScroller = function(){
+        // var uiScroller = function(){
             
-            if($(".scroll").length > 0){
-                $(".scroll").mCustomScrollbar({axis:"y", autoHideScrollbar: true, scrollInertia: 20, advanced: {autoScrollOnFocus: false}});
-            }
+        //     if($(".scroll").length > 0){
+        //         $(".scroll").mCustomScrollbar({axis:"y", autoHideScrollbar: true, scrollInertia: 20, advanced: {autoScrollOnFocus: false}});
+        //     }
             
-        }// END Custom Content Scroller
+        // }
+        // END Custom Content Scroller
        
         // Sparkline
         var uiSparkline = function(){
@@ -412,23 +414,15 @@ $(function() {
            
        }// End sparkline              
        
-        $(window).resize(function(){
-            if($(".owl-carousel").length > 0){
-                console.log($(".owl-carousel"));
-                $(".owl-carousel").data('owlCarousel').destroy();
-                uiOwlCarousel();
-            }
-        });
-       
         return {
             init: function(){
                 uiDatatable();
                 uiRangeSlider();
                 uiKnob();
                 uiSmartWizard();
-                uiOwlCarousel();
+                //uiOwlCarousel();
                 uiSummernote();
-                uiScroller();
+                //uiScroller();
                 uiSparkline();
             }
         }

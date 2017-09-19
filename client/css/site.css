@@ -1,3 +1,69 @@
+datetimepicker2{
+  margin-bottom: 0px;
+}
+
+svg {
+   top: 0 !important;
+   left: 0 !important;
+}
+
+.canvas-camisa {
+  height: 141px;
+  width: 109px;
+}
+.canvas-calcao {
+  height: 81px;
+  width: 109px;
+}
+.canvas-meiao {
+  height: 124px;
+  width: 109px;
+}
+
+/* Inicio - Upload Simbolo */
+.kv-simbolo-custom{
+  width: 100%;
+}
+
+.kv-simbolo-custom-preview, .kv-simbolo-custom-preview .file-preview{
+  width: 194px;
+  height: 194px;
+}
+
+.kv-simbolo-custom-preview .file-preview img{
+  width: 180px !important;
+  height: 180px !important; 
+}
+
+.kv-simbolo-custom-preview img{
+  width: 180px;
+  height: 90%;
+}
+
+.kv-simbolo-custom-controls{
+  text-align: right;
+  margin-top: 5px;
+}
+
+.kv-simbolo .krajee-default.file-preview-frame,
+.kv-simbolo .krajee-default.file-preview-frame:hover {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+}
+.kv-simbolo {
+    display: inline-block;
+}
+
+.kv-simbolo .file-input {
+    display: table-cell;
+    /*text-align: center;
+    width: 213px;*/
+}
+/* Fim - Upload Simbolo */
+
 .alert-1{
   padding: 5px 15px;
   line-height: 16px;
@@ -12,6 +78,10 @@
   color: #1caf9a;
   margin-left: -15px;
   margin-top: 5px;
+}
+
+.info-field-2{
+  color: #1caf9a;
 }
 
 .clickable{
@@ -40,6 +110,11 @@
 .modal-login .page-content-wrap{
 	/*width: 80%;
     margin: 0px 10%;*/
+}
+
+.modal-login < .ng-scope
+{
+  height: 100%; 
 }
 
 @media only screen and (min-width: 768px)

@@ -1,7 +1,7 @@
 'use strict';
 app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginService', '$window', '$crypthmac', function($scope, $location, $rootScope, loginService, $window, $crypthmac) {
     var me = $scope;
-    $scope.usuario = loginService.usuarioLogado();
+    $scope.usuario = loginService.usuarioLogado(false);
     $scope.mensagem = '';
     $scope.formControls = {
         txtLogin: $("#txtLogin"),
@@ -12,7 +12,8 @@ app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginSe
 
     // Load
     $scope.$on('$viewContentLoaded', function(){
-       $scope.formControls.txtLogin.focus();
+        $('.login-container').height($('html').height()); // fix angular ng-scope class
+        $scope.formControls.txtLogin.focus();
         $scope.formControls.notificacao.hide();
         $scope.formControls.frmSelecionarTime.hide();
         initValidation();
@@ -25,7 +26,6 @@ app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginSe
         else if ($scope.usuario && $scope.usuario.timeSelecionado){
             $location.path('/principal');
         }
-
     });
 
     $scope.cadastro = function(){

@@ -8,8 +8,17 @@ module.exports = function(app) {
 
 	api.verificarNomeTimeExistente = function(req, res){
 		var nomeTime = req.params.nomeTime;
+		
+		let query = {};
+		query.nome = {
+				'$regex': '^' + nomeTime + '$',
+				'$options': 'i'
+		}
 
-		modelTime.find({"nome": { '$regex': '^' + nomeTime + '$', '$options' : 'i' } }).then(
+		//## Se parametro id foi informado, pesquisa apenas times diferentes do id informado
+		req.params.id ? (query._id = { '$ne': req.params.id } ) : "";
+
+		modelTime.find(query).then(
 			function(lstTimes){
 				if (lstTimes.length > 0){
 					res.json(true);

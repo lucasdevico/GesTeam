@@ -9,6 +9,10 @@ app.factory('tokenInterceptor', function($q, $window, $location){
 		return config;
 	};
 
+	interceptor.requestError = function (rejection) {
+        return $q.reject(rejection);
+    }
+
 	interceptor.response = function(response){
 		var token = response.headers('x-access-token');
 		if (token != null){

@@ -34,6 +34,8 @@ app.controller('CadastroController', function(
         cbxUtilizarContatoPessoal: $("#cbxUtilizarContatoPessoal")
 	};
 
+    $scope.containerHeight = window.innerHeight;
+
 	$scope.novoCadastro = {
 		usuario: {
 			nome: null,
@@ -88,7 +90,7 @@ app.controller('CadastroController', function(
         $scope.formControls.txtNome.focus();
 
         //## DEBUG
-        $scope.novoCadastro = {"usuario":{"nome":"Lucas de Vico Souza","dataNascimento": null,"login":"lucas.devico","senha":"123456","confirmaSenha":"123456","contato":{"email":"lucas.devico@gmail.com","telefone1":"(11) 95169-4589","telefone2":null,"permiteSMS":true,"permiteEmail":true}},"time":{"nome":"Malibu","nomeCompleto":"Malibu Futsal","dataFundacao":"2007-03-28T03:00:00.000Z","modalidade":"Futsal","qtdQuadros":"2","localizacao":{"cep":"02072-001","logradouro":"Avenida Conceição","numero":"1310","complemento":"Apto. 4","bairro":"Carandiru","uf":"SP","cidade":"São Paulo"},"contato":{"email":"lucas.devico@gmail.com","telefone1":"(11) 95169-4589","telefone2":null,"permiteSMS":true,"permiteEmail":true},"status":"Aguardando Liberação","dataCadastro": null}};
+        //$scope.novoCadastro = {"usuario":{"nome":"Lucas de Vico Souza","dataNascimento": null,"login":"lucas.devico","senha":"123456","confirmaSenha":"123456","contato":{"email":"lucas.devico@gmail.com","telefone1":"(11) 95169-4589","telefone2":null,"permiteSMS":true,"permiteEmail":true}},"time":{"nome":"Malibu","nomeCompleto":"Malibu Futsal","dataFundacao":"2007-03-28T03:00:00.000Z","modalidade":"Futsal","qtdQuadros":"2","localizacao":{"cep":"02072-001","logradouro":"Avenida Conceição","numero":"1310","complemento":"Apto. 4","bairro":"Carandiru","uf":"SP","cidade":"São Paulo"},"contato":{"email":"lucas.devico@gmail.com","telefone1":"(11) 95169-4589","telefone2":null,"permiteSMS":true,"permiteEmail":true},"status":"Aguardando Liberação","dataCadastro": null}};
 	};
 
     var initPopover = function(){
@@ -213,6 +215,16 @@ app.controller('CadastroController', function(
                     },
                 error:
                     function(responseError){
+                        $scope.novoCadastro.time.localizacao = {
+                            cep: null,
+                            logradouro: null,
+                            complemento: null,
+                            bairro: null,
+                            uf: null,
+                            cidade: null,
+                            numero: null
+                        };
+
                         // Cep não encontardo
                         if (responseError.status == 404){
                             $rootScope.completeLoading();
@@ -230,13 +242,15 @@ app.controller('CadastroController', function(
                 });
             }
             else{
+                    $rootScope.cancelLoading();
                     $scope.novoCadastro.time.localizacao = {
                         cep: null,
                         logradouro: null,
                         complemento: null,
                         bairro: null,
                         uf: null,
-                        cidade: null
+                        cidade: null,
+                        numero: null
                     };
             }
 

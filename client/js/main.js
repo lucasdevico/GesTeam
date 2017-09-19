@@ -5,7 +5,11 @@ var app = angular.module('gesteam', [
     'LocalStorageModule',
     'angular-hmac-sha512',
     'ngSanitize',
-    'angular-jwt']);
+    'angular-jwt',
+    'ui.bootstrap',
+    'colorpicker.module',
+    'ngFileUpload']);
+    //'ui.bootstrap.datetimepicker']);
 
 // Settings
 var serviceBase = 'http://localhost:3000';
@@ -35,6 +39,11 @@ app.config(function($routeProvider, $locationProvider) {
         controller: 'PrincipalController'
     }); 
 
+    $routeProvider.when('/time/editar', {
+        templateUrl: 'partials/time.html',
+        controller: 'TimeController'
+    }); 
+
     $routeProvider.otherwise({redirectTo: '/login'});
 
 });
@@ -42,6 +51,10 @@ app.config(function($routeProvider, $locationProvider) {
 app.config(['$crypthmacProvider', function ($crypthmacProvider) {
     $crypthmacProvider.setCryptoSecret(cryptoSecretBase);
 }]);
+
+app.config( function ( $tooltipProvider ) {
+  $tooltipProvider.options({ appendToBody: true });
+});
 
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('tokenInterceptor');
@@ -56,6 +69,16 @@ app.run(function($rootScope){
 
     $rootScope.initLoading = function(){
         $.mpb("show",{value: [0,50],speed: 5});
+    };
+
+    $rootScope.refreshLoading = function(percentage){
+        $.mpb("update",{value: percentage, speed: 5, complete: function(){
+            if (percentage == 100){
+                $(".mpb").fadeOut(200,function(){
+                    $(this).remove();
+                });
+            }
+        }});
     };
 
     $rootScope.completeLoading = function(){
@@ -121,4 +144,35 @@ app.constant('ngGesTeamSettings', {
     apiServiceBaseUri: serviceBase,
     apiCorreiosBaseUri: apiCorreiosBase,
     regexLogin: regexLoginBase
+});
+
+app.directive('datetimepicker', function(){
+    return {
+        require: '?ngModel',
+        restrict: 'A',
+        link: function(scope, element, attrs, ngModel){
+            //if(!ngModel) return; // do nothing if no ng-model
+
+            //ngModel.$render = function(){
+            //    element.find('input').val( ngModel.$viewValue || '' );
+            //}
+
+
+            element.datetimepicker({ 
+                language: 'pt-br',
+                format: 'DD/MM/YYYY'
+            });
+
+            element.on('dp.change', function(){
+                scope.$apply(read);
+            });
+
+            read();
+
+            function read() {
+                var value = element.find('input').val();
+                ngModel.$setViewValue(value);
+            }
+        }
+    }
 });

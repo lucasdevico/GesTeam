@@ -22,6 +22,10 @@ var schema = mongoose.Schema({
 			type: String,
 			required: false
 		},
+		numero: {
+			type: Number,
+			required: false
+		},
 		complemento: {
 			type: String,
 			required: false
@@ -34,7 +38,7 @@ var schema = mongoose.Schema({
 			type: String,
 			required: false
 		},
-		UF: {
+		uf: {
 			type: String,
 			required: false
 		}

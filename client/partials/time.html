@@ -1,0 +1,292 @@
+<div class="page-container">
+            
+            <!-- START PAGE SIDEBAR -->
+            <div class="page-sidebar">
+                <menu-principal usuario="usuario" time="usuario.timeSelecionado"></menu-principal>
+            </div>
+            <!-- END PAGE SIDEBAR -->
+            
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+                <barra-status usuario="usuario"></barra-status>
+
+                <!-- START BREADCRUMB -->
+                <ul class="breadcrumb">
+                    <li><a href="#/principal">Principal</a></li>
+                    <li class="active">Editar Time</li>
+                </ul>
+                <!-- END BREADCRUMB -->                       
+                
+                <!-- PAGE CONTENT WRAPPER -->
+                <div class="page-content-wrap">
+                
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+                            <form id="frmTime" class="form-horizontal">
+                            <div class="panel panel-default">
+                                <!--
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><strong>One Column</strong> Layout</h3>
+                                    <ul class="panel-controls">
+                                        <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <p>This is non libero bibendum, scelerisque arcu id, placerat nunc. Integer ullamcorper rutrum dui eget porta. Fusce enim dui, pulvinar a augue nec, dapibus hendrerit mauris. Praesent efficitur, elit non convallis faucibus, enim sapien suscipit mi, sit amet fringilla felis arcu id sem. Phasellus semper felis in odio convallis, et venenatis nisl posuere. Morbi non aliquet magna, a consectetur risus. Vivamus quis tellus eros. Nulla sagittis nisi sit amet orci consectetur laoreet. Vivamus volutpat erat ac vulputate laoreet. Phasellus eu ipsum massa.</p>
+                                </div>
+                                -->
+                                <div class="panel-body">
+                                    <div class="col-md-7">
+                                        <h4>Informações do Time</h4>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Nome</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" id="txtNomeTime" name="txtNomeTime" placeholder="Nome" ng-model="time.nome"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Nome Completo</label>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" id="txtNomeCompletoTime" name="txtNomeCompletoTime" placeholder="Nome" ng-model="time.nomeCompleto"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Data de Fundação</label>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input type="text" id="txtDtFundacao" name="txtDtFundacao" 
+                                                    datetimepicker ng-model="time.dataFundacao" class="form-control" />
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Modalidade</label>
+                                            <div class="col-md-4">
+                                                <select selectpicker id="cboModalidade" name="cboModalidade" class="form-control" 
+                                                ng-model="time.modalidade">
+                                                    <option></option>
+                                                    <option>Futsal</option>
+                                                    <option>Society</option>
+                                                    <option>Campo</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Quantidade de Quadros</label>
+                                            <div class="col-md-4">
+                                                <select selectpicker id="cboQtdQuadros" name="cboQtdQuadros" 
+                                                class="form-control" 
+                                                ng-model="time.qtdQuadros" convert-to-number>
+                                                    <option></option>
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <h4>Símbolo
+                                        <span id="ttpSimbolo" class="fa fa-info-circle info-field-2" data-placement="top" data-container="body" data-toggle="popover" data-trigger="hover"
+                                        data-content="Selecione o símbolo < 1.500 Kb" >
+                                        </span>
+                                        </h4>
+                                        
+                                        <div class="text-center">
+                                            <div class="col-sm-6 col-xs-6 text-center">
+                                                <form id="frmUploadSimbolo" class="form form-vertical" method="post" enctype="multipart/form-data">
+                                                    <div class="kv-simbolo">
+                                                        <div class="file-loading">
+                                                            <input id="fldSimbolo" ngf-select ng-model="time.arquivoSimbolo" name="fldSimbolo" type="file">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div id="kv-simbolo-errors-1" class="center-block" style="display:none"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <h4>Uniforme(s)</h4>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label class="col-md-12">Camisa</label>
+                                                <div class="col-md-12">
+                                                    <input colorpicker colorpicker-canvas="main-canvas-camisa-1" type="text" 
+                                                    colorpicker-canvas-url="../img/simulador_uniformes/camisa.png"
+                                                    class="form-control" ng-model="time.coresUniforme1.camisa">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="main-canvas-camisa-1" class="canvas-camisa"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label class="col-md-12">Calção</label>
+                                                <div class="col-md-12">
+                                                    <input colorpicker colorpicker-canvas="main-canvas-calcao-1" type="text" 
+                                                    colorpicker-canvas-url="../img/simulador_uniformes/calcao.png"
+                                                    class="form-control" ng-model="time.coresUniforme1.calcao">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="main-canvas-calcao-1" class="canvas-calcao"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label class="col-md-12">Meião</label>
+                                                <div class="col-md-12">
+                                                    <input colorpicker colorpicker-canvas="main-canvas-meiao-1" type="text" 
+                                                    colorpicker-canvas-url="../img/simulador_uniformes/meiao.png"
+                                                    class="form-control" ng-model="time.coresUniforme1.meiao">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="main-canvas-meiao-1" class="canvas-meiao"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" ng-show="time.qtdQuadros == 2">
+                                        <h4>&nbsp;</h4>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label class="col-md-12">Camisa</label>
+                                                <div class="col-md-12">
+                                                    <input colorpicker colorpicker-canvas="main-canvas-camisa-2" type="text" 
+                                                    colorpicker-canvas-url="../img/simulador_uniformes/camisa.png"
+                                                    class="form-control" ng-model="time.coresUniforme2.camisa">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="main-canvas-camisa-2" class="canvas-camisa"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label class="col-md-12">Calção</label>
+                                                <div class="col-md-12">
+                                                    <input colorpicker colorpicker-canvas="main-canvas-calcao-2" type="text" 
+                                                    colorpicker-canvas-url="../img/simulador_uniformes/calcao.png"
+                                                    class="form-control" ng-model="time.coresUniforme2.calcao">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="main-canvas-calcao-2" class="canvas-calcao"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label class="col-md-12">Meião</label>
+                                                <div class="col-md-12">
+                                                    <input colorpicker colorpicker-canvas="main-canvas-meiao-2" type="text" 
+                                                    colorpicker-canvas-url="../img/simulador_uniformes/meiao.png"
+                                                    class="form-control" ng-model="time.coresUniforme2.meiao">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="main-canvas-meiao-2" class="canvas-meiao"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-7">
+                                        <h4>Localização</h4>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">CEP</label>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control field-custom-cep" id="txtCEP" name="txtCEP"placeholder="CEP" ng-model="time.localizacao.cep" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Logradouro</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="txtLogradouro" name="txtLogradouro"placeholder="Logradouro" ng-model="time.localizacao.logradouro" disabled/>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="text" class="form-control" id="txtNumero" name="txtNumero" placeholder="nº" ng-model="time.localizacao.numero"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Complemento</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" id="txtComplemento" name="txtComplemento" placeholder="Complemento" ng-model="time.localizacao.complemento"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Bairro</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" id="txtBairro" name="txtBairro" placeholder="Bairro" ng-model="time.localizacao.bairro" disabled/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">UF</label>
+                                            <div class="col-md-3">
+                                                <select selectpicker id="cboUF" name="cboUF" class="form-control"
+                                                ng-model="time.localizacao.uf"
+                                                ng-change="carregarComboCidades()" disabled>
+                                                    <option></option>
+                                                    <option ng-repeat="estado in lstEstados" value="{{estado.estado}}">{{estado.estado}}</option>
+                                                </select>
+                                            </div>
+                                            <label class="col-md-1 control-label">Cidade</label>
+                                            <div class="col-md-4">
+                                                <select selectpicker data-live-search="true" id="cboCidade" name="cboCidade" class="form-control" 
+                                                ng-model="time.localizacao.cidade"
+                                                ng-options="cidade as cidade for cidade in lstCidades track by cidade" disabled>
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <h4>Contato</h4>
+                                        <div id="divInformacoesContatoTime" class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Email</label>
+                                                <div class="col-md-8">
+                                                    <input type="email" class="form-control" id="txtTimeEmail" name="txtTimeEmail" placeholder="Email" ng-model="time.contato.email"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Telefone (1)</label>
+                                                <div class="col-md-4">
+                                                    <input type="telefone" class="form-control mask-telefone" id="txtTimeTelefone1" name="txtTimeTelefone1" placeholder="Telefone" ng-model="time.contato.telefone1"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Telefone (2)</label>
+                                                <div class="col-md-4">
+                                                    <input type="telefone" class="form-control mask-telefone" id="txtTimeTelefone2" name="txtTimeTelefone2" placeholder="Telefone" ng-model="time.contato.telefone2"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 col-xs-12 control-label">Permitir Mensagens</label>
+                                                <div class="col-md-2 col-xs-12">                                                                            
+                                                    <label class="check"><input id="cbxTimePermiteSMS" name="cbxTimePermiteSMS" type="checkbox" class="icheckbox" ng-model="time.contato.permiteSMS" /> SMS</label>
+                                                    <br>
+                                                    <label class="check"><input id="cbxTimePermiteEmail" name="cbxTimePermiteEmail" type="checkbox" class="icheckbox" ng-model="time.contato.permiteEmail" /> Email</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">                                
+                                    <button class="btn btn-primary pull-right" ng-click="salvar()">Salvar</button>
+                                </div>
+                            </div>
+                            </form>
+                            
+                        </div>
+                    </div>                    
+                    
+                </div>
+                <!-- END PAGE CONTENT WRAPPER -->                                 
+            </div>            
+            <!-- END PAGE CONTENT -->
+        </div>

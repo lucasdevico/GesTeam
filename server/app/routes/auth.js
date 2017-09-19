@@ -9,6 +9,7 @@ module.exports = function(app) {
     app.get('/usuario/verificarLoginExistente/:login', apiUsuario.verificarLoginExistente);
     app.get('/usuario/verificarEmailExistente/:email', apiUsuario.verificarEmailExistente);
     app.get('/time/verificarNomeTimeExistente/:nomeTime', apiTime.verificarNomeTimeExistente);
+    app.get('/time/verificarNomeTimeExistente/:nomeTime/:id', apiTime.verificarNomeTimeExistente);
     app.post('/usuario/cadastrar', apiUsuario.cadastrarUsuario);
     app.use('/*', api.verificaToken);
 };

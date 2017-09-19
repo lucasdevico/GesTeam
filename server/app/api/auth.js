@@ -28,23 +28,23 @@ module.exports = function(app) {
 
     api.verificaToken = function(req, res, next) {
          var token = req.headers['x-access-token']; // busca o token no header da requisição
-         console.log('Obtendo Token do Header', req.url, token);
+         //console.log('Obtendo Token do Header', req.url, token);
 
          if (token) {
-             console.log('Token recebido, decodificando');
+             //console.log('Token recebido, decodificando');
              jwt.verify(token, app.get('secret'), function(err, decoded) {
                  if (err) {
-                     console.log('Token rejeitado');
+                     //console.log('Token rejeitado');
                      return res.sendStatus(401);
                  } else {
-                     console.log('Token aceito')
+                     //console.log('Token aceito')
                      // guardou o valor decodificado do token na requisição. No caso, o login do usuário.
                      req.usuario = decoded;    
                      next();
                   }
             });
         } else {
-            console.log('Nenhum token enviado');
+            //console.log('Nenhum token enviado');
             return res.sendStatus(401);
           }
     }
