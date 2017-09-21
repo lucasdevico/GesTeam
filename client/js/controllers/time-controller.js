@@ -1,19 +1,10 @@
 'use strict';
-app.controller('TimeController', function($scope, loginService, $location, ngGesTeamSettings, $rootScope, utilsService, $q, $timeout) {
+app.controller('TimeController', function($scope, loginService, $location, ngGesTeamSettings, $rootScope, utilsService, $q, $timeout, timeService) {
 	var me = $scope;
 
 	// Obter o usuário logado
 	$scope.usuario = loginService.usuarioLogado();
 
-	//## Cria uma cópia do time para utilizar na página
-	//## Este objeto será manipulado e posteriormente salvo.
-	$scope.time = $.extend({}, $scope.usuario.timeSelecionado);
-	$scope.time.dataFundacao = moment($scope.time.dataFundacao).format('DD/MM/YYYY');
-
-	//## DEBUG - REMOVER
-	console.log($scope.time);
-	//##
-	
 	//## controles da página
 	$scope.formControls = {
         form: $("#frmTime"),
@@ -49,20 +40,38 @@ app.controller('TimeController', function($scope, loginService, $location, ngGes
 	}
 
 	//## Load inicial da página
-	$scope.$on('$viewContentLoaded', function(){
-		_initCoresUniformes();
-		_initFileInput();
-		_initPopover();
-		_initMasks();
-		_createCustomErrors();
-		_initValidation();
-		_carregarComboUF().then(function(){
-            $scope.carregarComboCidades();
-            $timeout(function(){
-                $scope.formControls.cboUF.val($scope.time.localizacao.uf);
-                $scope.formControls.cboUF.selectpicker('refresh');
+	$scope.$on('$viewContentLoaded', function(){        
+        $rootScope.initLoading();
+
+        //## Carregar as informações do time
+        timeService.obter($scope.usuario.timeSelecionado._id).then(function(response){
+
+            //## Cria uma cópia do time para utilizar na página
+            //## Este objeto será manipulado e posteriormente salvo.
+            $scope.time = response.data;
+            $scope.time.dataFundacaoFormatada = moment($scope.time.dataFundacao).format('L');
+
+            //## DEBUG - REMOVER
+            console.log($scope.time);
+            //##
+
+            _initCoresUniformes();
+            _initFileInput();
+            _initPopover();
+            _initMasks();
+            _createCustomErrors();
+            _initValidation();
+            _carregarComboUF().then(function(){
+                $scope.carregarComboCidades();
+                $timeout(function(){
+                    $scope.formControls.cboUF.val($scope.time.localizacao.uf);
+                    $scope.formControls.cboUF.selectpicker('refresh');
+                });
             });
+
+            $rootScope.completeLoading();
         });
+        //##
 	});
 
 	//## Carregar combo UF
@@ -269,7 +278,7 @@ app.controller('TimeController', function($scope, loginService, $location, ngGes
     //## Criação de máscaras para os campos
 	var _initMasks = function(){
         $scope.formControls.txtCEP.mask('99999-999');
-        $scope.formControls.txtDtFundacao.mask("99/99/9999");//.datepicker();
+        $scope.formControls.txtDtFundacao.mask("99/99/9999");
 
         $(".mask-telefone").mask("(99) 9999-9999?9")
             .focusout(function (event) {  
@@ -359,18 +368,71 @@ app.controller('TimeController', function($scope, loginService, $location, ngGes
 	};
 
     $scope.salvar = function(){
+        $rootScope.initLoading();
         if ($scope.formControls.form.valid()){
 
             //## Fazer upload do simbolo para a pasta origem
-            if (fldSimbolo.files.length > 0){
-                utilsService.uploadSimbolo($scope.time.arquivoSimbolo);
-            }
-        
-            //## Atualizar as informações na base
+            $scope.uploadSimbolo().then(function(responseUpload){                
+                //## Existe retorno?
+                if (responseUpload){
+                    //## Foi efetuado o upload?
+                    if (responseUpload.data.nome_arquivo){
+                        //## Atualiza o nome do arquivo para o nome gerado pelo sistema
+                        //## no objeto do escopo
+                        $scope.time.imagemSimbolo = "../img/simbolos/" + responseUpload.data.nome_arquivo;
+                    }
+                }
 
-            //## Atualizar as informações no usuario logado
+                //## Faz as conversões necessárias
+                $scope.time.dataFundacao = moment($scope.time.dataFundacaoFormatada, 'DD/MM/YYYY').toISOString();
+                $scope.timeNormalizado = $.extend({}, $scope.time);
+                $scope.timeNormalizado.coresUniforme1 = $scope.time.coresUniforme1.getText();
+                $scope.timeNormalizado.coresUniforme2 = $scope.time.coresUniforme2.getText();
+                //##
+
+                //## Atualizar as informações na base
+                timeService.atualizar($scope.timeNormalizado).then(function(responseAtualizar){
+                    if (responseAtualizar.data && responseAtualizar.data === true){
+                        
+                        //## Atualizar as informações do time selecionado em cache
+                        loginService.preencherDadosAutenticacao();
+                        $scope.usuario = loginService.usuarioLogado();
+
+                        //## Rola o Scroll pra cima
+                        $('body').animate({scrollTop: 0}, 250);
+
+                        $rootScope.openModalSuccess("O cadastro do time foi atualizado.");
+                    }
+                    else{
+                        $rootScope.openModalError("Não foi possível atualizar o cadastro deste time.");   
+                    }
+                },
+                function(responseAtualizarError){
+                    $rootScope.openModalError("Não foi possível atualizar o cadastro deste time.");
+                });
+            });
         }
+
     };
+
+    $scope.uploadSimbolo = function(){
+        var deferred = $q.defer();
+        if (fldSimbolo.files.length > 0){
+            utilsService.uploadSimbolo($scope.time.arquivoSimbolo).then(function(resp){
+                if (resp.data.error_code !== 0){
+                    var errorDetalhe = "</br>Código: " + resp.data.err_desc.code +
+                                        "</br>Campo: " + resp.data.err_desc.field;
+                    $rootScope.openModalError("Uma falha foi detectada no envio do símbolo para o servidor.", errorDetalhe);
+                    deferred.reject(resp);
+                }
+                deferred.resolve(resp);
+            });
+        }
+        else{
+            deferred.resolve();
+        }
+        return deferred.promise;
+    }
 
 	//## Gatilhos iniciais
 	$scope.verificaAcesso();

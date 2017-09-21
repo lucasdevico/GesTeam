@@ -67,6 +67,7 @@ THE SOFTWARE.
             dDate,
 
         init = function () {
+
             var icon = false, localeData, rInterval;
             picker.options = $.extend({}, defaults, options);
             picker.options.icons = $.extend({}, icons, picker.options.icons);

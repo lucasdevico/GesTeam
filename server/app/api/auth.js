@@ -39,7 +39,7 @@ module.exports = function(app) {
                  } else {
                      //console.log('Token aceito')
                      // guardou o valor decodificado do token na requisição. No caso, o login do usuário.
-                     req.usuario = decoded;    
+                     req.userId = decoded.usuarioLogado._id;
                      next();
                   }
             });

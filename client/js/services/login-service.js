@@ -1,5 +1,5 @@
 'use strict';
-app.factory('loginService', function($http, ngGesTeamSettings, $q, $window, jwtHelper, $location, $rootScope){
+app.factory('loginService', function($http, ngGesTeamSettings, $q, $window, jwtHelper, $location, $rootScope, timeService){
 	var loginServiceFactory = {};
 	var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
 
@@ -50,11 +50,16 @@ app.factory('loginService', function($http, ngGesTeamSettings, $q, $window, jwtH
                 	var idTimeSelecionado = $window.sessionStorage.timeSelecionado;
 
                 	// Obter acesso ao time selecionado
-			        var acesso = JSON.parse(JSON.stringify($.grep(_usuarioLogado.acessos, function(x){
-			            return x._time._id == idTimeSelecionado;
-			        })[0]));
+			        // var acesso = JSON.parse(JSON.stringify($.grep(_usuarioLogado.acessos, function(x){
+			        //     return x._time._id == idTimeSelecionado;
+			        // })[0]));
+           			// _usuarioLogado.timeSelecionado = acesso._time;
 
-                	_usuarioLogado.timeSelecionado = acesso._time;
+                	//## Carregar informações do time selecionado
+                	timeService.obter(idTimeSelecionado).then(function(response){
+                		_usuarioLogado.timeSelecionado = response.data;
+                	});
+                	//##
                 }
             }
 
@@ -74,6 +79,7 @@ app.factory('loginService', function($http, ngGesTeamSettings, $q, $window, jwtH
 	}
 
 	var _obterUsuarioLogado = function(){
+		//_preencherDadosAutenticacao();
 		return _usuarioLogado;
 	}
 

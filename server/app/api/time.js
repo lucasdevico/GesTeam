@@ -6,6 +6,26 @@ module.exports = function(app) {
 	var modelTime = mongoose.model('Time');
 	var modelContador = mongoose.model('Contador');
 
+	api.obter = function(req, res){
+		var idTime = req.params.id;
+		modelTime.findOne({_id: idTime}).then(function(time){
+			res.json(time);
+		}, function(error){
+			res.status(500).json(error);
+		})
+	};
+
+	api.atualizar = function(req, res){
+		var time = req.body;
+		var idTime = req.params.id;
+
+		modelTime.update({_id: idTime}, time).then(function(time){
+			res.json(true);
+		}, function(error){
+			res.status(500).json(error);
+		})
+	};
+
 	api.verificarNomeTimeExistente = function(req, res){
 		var nomeTime = req.params.nomeTime;
 		

@@ -68,7 +68,7 @@ app.run(['loginService', function (loginService) {
 app.run(function($rootScope){
 
     $rootScope.initLoading = function(){
-        $.mpb("show",{value: [0,50],speed: 5});
+        $.mpb("show",{value: [0,50], speed: 5});
     };
 
     $rootScope.refreshLoading = function(percentage){
@@ -109,7 +109,7 @@ app.run(function($rootScope){
         if(box.length > 0){
             box.toggleClass("open");
             box.find('#mb-error-descricao').empty().text(erro);
-            box.find('#mb-error-detalhes').empty().text(detalhes);
+            box.find('#mb-error-detalhes').empty().html(detalhes);
         }
         return;
     };
@@ -130,9 +130,10 @@ app.run(function($rootScope){
         if(box.length > 0){
             box.addClass("open");
             box.find('#mb-error-descricao').empty().text(descricao);
-            box.find('#mb-error-detalhes').empty().text(detalhes);
+            box.find('#mb-error-detalhes').empty().html(detalhes);
             box.find('.mb-control-close').unbind('click').bind('click', function(){
-                fnCallback();
+                if (fnCallback)
+                    fnCallback();
                 box.removeClass("open");
             });
         }
@@ -146,21 +147,23 @@ app.constant('ngGesTeamSettings', {
     regexLogin: regexLoginBase
 });
 
-app.directive('datetimepicker', function(){
+app.directive('datetimepicker', function($filter){
     return {
         require: '?ngModel',
         restrict: 'A',
         link: function(scope, element, attrs, ngModel){
             //if(!ngModel) return; // do nothing if no ng-model
 
+            //ngModel.$formatters.shift();
             //ngModel.$render = function(){
-            //    element.find('input').val( ngModel.$viewValue || '' );
+                //element.find('input').val( ngModel.$viewValue || '' );
+                //element.find('input').val($filter('date')(ngModel.$viewValue, 'DD/MM/YYYY'));
             //}
-
 
             element.datetimepicker({ 
                 language: 'pt-br',
-                format: 'DD/MM/YYYY'
+                format: 'DD/MM/YYYY',
+                pickTime: false
             });
 
             element.on('dp.change', function(){
