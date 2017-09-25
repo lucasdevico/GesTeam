@@ -23,9 +23,25 @@ app.factory('usuarioService', ['$http', 'ngGesTeamSettings', '$q', function($htt
 		});	
 	}
 
+	var _atualizar = function(_usuario){
+		var url = serviceBase + '/usuario/editar';
+		return $http.put(url, _usuario).then(function(response) {
+		   return response;
+		});	
+	}
+
+	var _obter = function(_id){
+		var url = serviceBase + '/usuario/obter/' + _id;
+		return $http.get(url).then(function(response){
+			return response;
+		});
+	}
+
 	usuarioServiceFactory.verificarLoginExistente = _verificarLoginExistente;
 	usuarioServiceFactory.verificarEmailExistente = _verificarEmailExistente;
-	usuarioServiceFactory.cadastrar = _cadastrar
+	usuarioServiceFactory.cadastrar = _cadastrar;
+	usuarioServiceFactory.atualizar = _atualizar;
+	usuarioServiceFactory.obter = _obter;
 
 	return usuarioServiceFactory;
 

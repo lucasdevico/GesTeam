@@ -7,6 +7,26 @@ module.exports = function(app) {
 	var modelTime = mongoose.model('Time');
 	var modelContador = mongoose.model('Contador');
 
+	api.obter = function(req, res){
+		var idUsuario = req.params.id;
+		modelUsuario.findOne({_id: idUsuario}).then(function(usuario){
+			res.json(usuario);
+		}, function(error){
+			res.status(500).json(error);
+		})
+	};
+
+	api.atualizar = function(req, res){
+		var usuario = req.body;
+		var idUsuario = req.params.id;
+
+		modelUsuario.update({_id: idUsuario}, usuario).then(function(time){
+			res.json(true);
+		}, function(error){
+			res.status(500).json(error);
+		})
+	};
+
 	api.verificarEmailExistente = function(req, res){
 		var email = req.params.email;
 

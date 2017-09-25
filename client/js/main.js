@@ -44,6 +44,11 @@ app.config(function($routeProvider, $locationProvider) {
         controller: 'TimeController'
     }); 
 
+    $routeProvider.when('/usuario/editar', {
+        templateUrl: 'partials/usuario.html',
+        controller: 'UsuarioController'
+    }); 
+
     $routeProvider.otherwise({redirectTo: '/login'});
 
 });

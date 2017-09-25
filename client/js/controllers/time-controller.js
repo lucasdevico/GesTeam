@@ -51,10 +51,6 @@ app.controller('TimeController', function($scope, loginService, $location, ngGes
             $scope.time = response.data;
             $scope.time.dataFundacaoFormatada = moment($scope.time.dataFundacao).format('L');
 
-            //## DEBUG - REMOVER
-            console.log($scope.time);
-            //##
-
             _initCoresUniformes();
             _initFileInput();
             _initPopover();

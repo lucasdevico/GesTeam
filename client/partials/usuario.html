@@ -1,0 +1,143 @@
+<div class="page-container">
+            
+            <!-- START PAGE SIDEBAR -->
+            <div class="page-sidebar">
+                <menu-principal usuario="usuario" time="usuario.timeSelecionado"></menu-principal>
+            </div>
+            <!-- END PAGE SIDEBAR -->
+            
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+                <barra-status usuario="usuario"></barra-status>
+
+                <!-- START BREADCRUMB -->
+                <ul class="breadcrumb">
+                    <li><a href="#/principal">Principal</a></li>
+                    <li class="active">Editar Usuário</li>
+                </ul>
+                <!-- END BREADCRUMB -->                       
+                
+                <!-- PAGE CONTENT WRAPPER -->
+                <div class="page-content-wrap">
+                
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+                            <form id="frmTime" class="form-horizontal">
+                            <div class="panel panel-default">
+                                <!--
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><strong>One Column</strong> Layout</h3>
+                                    <ul class="panel-controls">
+                                        <li><a href="#" class="panel-remove"><span class="fa fa-times"></span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <p>This is non libero bibendum, scelerisque arcu id, placerat nunc. Integer ullamcorper rutrum dui eget porta. Fusce enim dui, pulvinar a augue nec, dapibus hendrerit mauris. Praesent efficitur, elit non convallis faucibus, enim sapien suscipit mi, sit amet fringilla felis arcu id sem. Phasellus semper felis in odio convallis, et venenatis nisl posuere. Morbi non aliquet magna, a consectetur risus. Vivamus quis tellus eros. Nulla sagittis nisi sit amet orci consectetur laoreet. Vivamus volutpat erat ac vulputate laoreet. Phasellus eu ipsum massa.</p>
+                                </div>
+                                -->
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <h4>Informações do Usuário</h4>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Nome</label>
+                                            <div class="col-md-3 col-xs-12">
+                                                <input type="text" class="form-control" id="txtNome" name="txtNome" placeholder="Nome" ng-model="usuarioEdicao.nome"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Data de Nascimento</label>
+                                            <div class="col-md-2">
+                                                <div class="input-group input-group-sm date" 
+                                                datetimepicker-options="{format:'DD/MM/YYYY'}" datetimepicker 
+                                                ng-model="usuarioEdicao.dataNascimento">
+                                                  <input type="text" class="form-control" id='txtDtNascimento'
+                                                  name='txtDtNascimento' placeholder="Data de Nascimento"   />
+                                                  <span class="input-group-addon clickable"><span class="fa fa-calendar"></span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group"></div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Email</label>
+                                            <div class="col-md-3">
+                                                <input type="email" class="form-control" id="txtEmail" name="txtEmail" placeholder="Email" ng-model="usuarioEdicao.contato.email" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Login</label>
+                                            <div class="col-md-2 col-xs-11">
+                                                <input type="text" class="form-control" id="txtLogin" name="txtLogin" placeholder="Login" ng-model="usuarioEdicao.login" />
+                                            </div>
+                                            <div class="col-md-1 col-xs-1">
+                                                <span id="ttpLogin" class="fa fa-info-circle info-field" data-placement="top" data-container="body" data-toggle="popover" data-trigger="hover"
+                                                data-content="O login informado deve:<li>Iniciar com caracteres alfanuméricos<li>Caracteres especiais permitidos: _ ou ." >
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-3 text-right" style="margin-left: 5px; margin-top: 10px">
+                                                <a ng-click="habilitarAlterarSenha()" class="clickable">Alterar Senha</a>
+                                            </div>
+                                        </div>
+                                        <div id="dvAlterarSenha" style="display: none;">
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">Senha Atual</label>
+                                                <div class="col-md-2">
+                                                    <input type="password" class="form-control" id="txtSenha" name="txtSenhaAtual" placeholder="Senha" ng-model="usuarioEdicao.senha" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">Senha</label>
+                                                <div class="col-md-2">
+                                                    <input type="password" class="form-control" id="txtSenha" name="txtSenhaNova" placeholder="Senha" ng-model="usuarioEdicao.senha" />
+                                                </div>
+                                                <label class="col-md-2 control-label">Confirmar Senha</label>
+                                                <div class="col-md-2">
+                                                    <input type="password" class="form-control" id="txtConfirmaSenha" name="txtConfirmaSenha" placeholder="Confirmar Senha" ng-model="usuarioEdicao.confirmaSenha"/>
+                                                </div>
+                                                <div class="col-md-2" style="padding-top: 5px;">
+                                                    <a ng-click="desabilitarAlterarSenha()" class="clickable">Cancelar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <h4>Contato</h4>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Telefone (1)</label>
+                                            <div class="col-md-2">
+                                                <input type="telefone" class="form-control mask-telefone" id="txtTelefone1" name="txtTelefone1"placeholder="Telefone" ng-model="usuarioEdicao.contato.telefone1"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Telefone (2)</label>
+                                            <div class="col-md-2">
+                                                <input type="telefone" class="form-control mask-telefone" id="txtTelefone2" name="txtTelefone2" placeholder="Telefone" ng-model="usuarioEdicao.contato.telefone2"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 col-xs-12 control-label">Permitir Mensagens</label>
+                                            <div class="col-md-1 col-xs-12">                                                                            
+                                                <label class="check"><input id="cbxPermiteSMS" name="cbxPermiteSMS" type="checkbox" class="icheckbox" ng-model="usuarioEdicao.contato.permiteSMS" /> SMS</label>
+                                                <br>
+                                                <label class="check"><input id="cbxTimePermiteEmail" name="cbxTimePermiteEmail" type="checkbox" class="icheckbox" ng-model="usuarioEdicao.contato.permiteEmail" /> Email</label>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="panel-footer">                                
+                                    <button class="btn btn-primary pull-right" ng-click="salvar()">Salvar</button>
+                                </div>
+                            </div>
+                            </form>
+                            
+                        </div>
+                    </div>                    
+                    
+                </div>
+                <!-- END PAGE CONTENT WRAPPER -->                                 
+            </div>            
+            <!-- END PAGE CONTENT -->
+        </div>

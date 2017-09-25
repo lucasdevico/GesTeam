@@ -105,6 +105,13 @@ app.controller('LoginController', ['$scope', '$location', '$rootScope', 'loginSe
     }
 
     $scope.cancelarSelecionarTime = function (){
+        
+        if ($rootScope.$back){
+            $rootScope.$back();
+            $rootScope.$back = undefined;
+            return;
+        }
+
         $scope.usuario = {};
         delete $window.sessionStorage.token
         $scope.formControls.frmSelecionarTime.hide();

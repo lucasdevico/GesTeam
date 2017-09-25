@@ -1,4 +1,4 @@
-app.directive('menuPrincipal', function() {
+app.directive('menuPrincipal', function($location, $rootScope) {
 	var ddo = {};
 
 	ddo.restrict = "AE";
@@ -16,6 +16,16 @@ app.directive('menuPrincipal', function() {
 		$(".page-sidebar").addClass("scroll").mCustomScrollbar("update");
 		$(".scroll").mCustomScrollbar({axis:"y", autoHideScrollbar: true, scrollInertia: 20, advanced: {autoScrollOnFocus: false}});
 		$(window).resize();
+
+		scope.direcionaSelecionarTime = function(){
+			var urlAnterior = $location.url();
+
+			$rootScope.$back = function(){
+				$location.path(urlAnterior);
+			}
+
+			$location.path('/login/selecionar-time');
+		}
 	}
 
 	return ddo;

@@ -2,6 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var usuarioSchema = mongoose.Schema({
+	nome: {
+		type: String,
+		required: true
+	},
+	dataNascimento: {
+		type: Date,
+		required: true
+	},
 	login: {
 		type: String,
 		required: true

@@ -49,15 +49,17 @@ app.factory('loginService', function($http, ngGesTeamSettings, $q, $window, jwtH
                 else{
                 	var idTimeSelecionado = $window.sessionStorage.timeSelecionado;
 
-                	// Obter acesso ao time selecionado
-			        // var acesso = JSON.parse(JSON.stringify($.grep(_usuarioLogado.acessos, function(x){
-			        //     return x._time._id == idTimeSelecionado;
-			        // })[0]));
-           			// _usuarioLogado.timeSelecionado = acesso._time;
-
                 	//## Carregar informações do time selecionado
                 	timeService.obter(idTimeSelecionado).then(function(response){
                 		_usuarioLogado.timeSelecionado = response.data;
+
+                		//## Atualizar o time também no cache de acessos
+				        $.grep(_usuarioLogado.acessos, function(x){
+				            if (x._time._id == idTimeSelecionado){
+				            	x._time = response.data;
+				            	return;
+				            }
+				        });
                 	});
                 	//##
                 }
