@@ -30,7 +30,16 @@ module.exports = function(app) {
 	api.verificarEmailExistente = function(req, res){
 		var email = req.params.email;
 
-		modelUsuario.find({"contato.email": { '$regex': '^' + email + '$', '$options' : 'i' } }).then(
+		let query = { contato: {} };
+		query.contato.email = {
+				'$regex': '^' + email + '$',
+				'$options': 'i'
+		}
+
+		//## Se parametro id foi informado, pesquisa apenas usuarios diferentes do id informado
+		req.params.id ? (query._id = { '$ne': req.params.id } ) : "";
+
+		modelUsuario.find(query).then(
 			function(lstUsuarios){
 				if (lstUsuarios.length > 0){
 					res.json(true);
@@ -46,7 +55,16 @@ module.exports = function(app) {
 	api.verificarLoginExistente = function(req, res){
 		var login = req.params.login;
 
-		modelUsuario.find({"login": { '$regex': '^' + login + '$', '$options' : 'i' } }).then(
+		let query = { };
+		query.login = {
+				'$regex': '^' + login + '$',
+				'$options': 'i'
+		}
+
+		//## Se parametro id foi informado, pesquisa apenas usuarios diferentes do id informado
+		req.params.id ? (query._id = { '$ne': req.params.id } ) : "";
+
+		modelUsuario.find(query).then(
 			function(lstUsuarios){
 				if (lstUsuarios.length > 0){
 					res.json(true);

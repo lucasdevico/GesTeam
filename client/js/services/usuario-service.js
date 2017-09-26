@@ -24,7 +24,7 @@ app.factory('usuarioService', ['$http', 'ngGesTeamSettings', '$q', function($htt
 	}
 
 	var _atualizar = function(_usuario){
-		var url = serviceBase + '/usuario/editar';
+		var url = serviceBase + '/usuario/atualizar/' + _usuario._id;
 		return $http.put(url, _usuario).then(function(response) {
 		   return response;
 		});	

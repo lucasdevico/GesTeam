@@ -1,5 +1,5 @@
 'use strict';
-app.controller('UsuarioController', function($scope, loginService, $location, ngGesTeamSettings, $rootScope, utilsService, $q, $timeout, usuarioService) {
+app.controller('UsuarioController', function($scope, loginService, $location, ngGesTeamSettings, $rootScope, utilsService, $q, $timeout, usuarioService, $crypthmac) {
 	var me = $scope;
 
 	// Obter o usuário logado
@@ -12,13 +12,15 @@ app.controller('UsuarioController', function($scope, loginService, $location, ng
         txtDtNascimento: $("#txtDtNascimento"),
         txtEmail: $("#txtEmail"),
         txtLogin: $("#txtLogin"),
-        txtSenha: $("#txtSenha"),
+        txtSenhaAtual: $("#txtSenhaAtual"),
+        txtSenhaNova: $("#txtSenhaNova"),
         txtConfirmaSenha: $("#txtConfirmaSenha"),
         txtTelefone1: $("#txtTelefone1"),
         txtTelefone2: $("#txtTelefone2"),
         cbxPermiteSMS: $("#cbxPermiteSMS"),
         cbxPermiteEmail: $("#cbxPermiteEmail"),
-        dvAlterarSenha: $("#dvAlterarSenha")
+        dvAlterarSenha: $("#dvAlterarSenha"),
+        dvLinkAlterarSenha: $("#dvLinkAlterarSenha")
 	};
 
     $scope.validator = {};
@@ -68,7 +70,8 @@ app.controller('UsuarioController', function($scope, loginService, $location, ng
             $rootScope.initLoading();
             var isValid = false;
             var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
-            $.ajax({ url: serviceBase + '/usuario/verificarLoginExistente/' + value, 
+            var idUsuario = $scope.usuario._id;
+            $.ajax({ url: serviceBase + '/usuario/verificarLoginExistente/' + value  + '/' + idUsuario, 
                 async: false, 
                 success: 
                     function(msg) { 
@@ -105,7 +108,8 @@ app.controller('UsuarioController', function($scope, loginService, $location, ng
             $rootScope.initLoading();
             var isValid = false;
             var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
-            $.ajax({ url: serviceBase + '/usuario/verificarEmailExistente/' + value, 
+            var idUsuario = $scope.usuario._id;
+            $.ajax({ url: serviceBase + '/usuario/verificarEmailExistente/' + value + '/' + idUsuario, 
                 async: false, 
                 success: 
                     function(response) { 
@@ -149,7 +153,12 @@ app.controller('UsuarioController', function($scope, loginService, $location, ng
                             patternLogin: true,
                             uniqueLogin: true
                         },
-                        txtSenha: {
+                        txtSenhaAtual: {
+                            required: true,
+                            minlength: 6,
+                            maxlength: 12,
+                        },
+                        txtSenhaNova: {
                             required: true,
                             minlength: 6,
                             maxlength: 12,
@@ -158,7 +167,7 @@ app.controller('UsuarioController', function($scope, loginService, $location, ng
                             required: true,
                             minlength: 6,
                             maxlength: 12,
-                            equalTo: "#txtSenha"
+                            equalTo: "#txtSenhaNova"
                         },
                         txtTelefone1: {
                             required: true
@@ -193,56 +202,86 @@ app.controller('UsuarioController', function($scope, loginService, $location, ng
     }
 
     $scope.habilitarAlterarSenha = function(){
-        $scope.formControls.dvAlterarSenha.show();
+        $scope.formControls.dvLinkAlterarSenha.hide();
+        $scope.formControls.dvAlterarSenha.fadeIn();
     }
 
     $scope.desabilitarAlterarSenha = function(){
-        $scope.formControls.dvAlterarSenha.hide();
+        $scope.usuarioEdicao.senhaAtual = "";
+        $scope.usuarioEdicao.novaSenha = "";
+        $scope.usuarioEdicao.confirmaSenha = "";
+        $scope.validator.resetForm();
+        $scope.formControls.dvAlterarSenha.fadeOut(200, function(){
+            $scope.formControls.dvLinkAlterarSenha.show();
+        });
     }
 
     $scope.salvar = function(){
         $rootScope.initLoading();
         if ($scope.formControls.form.valid()){
 
-            //## Fazer upload do simbolo para a pasta origem
-            $scope.uploadSimbolo().then(function(responseUpload){                
-                //## Existe retorno?
-                if (responseUpload){
-                    //## Foi efetuado o upload?
-                    if (responseUpload.data.nome_arquivo){
-                        //## Atualiza o nome do arquivo para o nome gerado pelo sistema
-                        //## no objeto do escopo
-                        $scope.time.imagemSimbolo = "../img/simbolos/" + responseUpload.data.nome_arquivo;
+            //## Faz as conversões necessárias
+            $scope.usuarioEdicao.dataNascimento = moment($scope.usuarioEdicao.dataNascimentoFormatada, 'DD/MM/YYYY').toISOString();
+            //##
+
+            //# Verifica se o usuário está alterando a senha
+            if ($scope.usuarioEdicao.novaSenha){
+                //## Valida se a senha atual está correta
+                var senhaAtualCrypto = $crypthmac.encrypt($scope.usuarioEdicao.senhaAtual);
+                if ($scope.usuario.senha == senhaAtualCrypto){
+                    var senhaNovaCrypto = $crypthmac.encrypt($scope.usuarioEdicao.novaSenha);
+
+                    //## Valida se a nova senha é diferente da senha atual
+                    if (senhaAtualCrypto == senhaNovaCrypto){
+                        $scope.usuarioEdicao.senha = $scope.usuario.senha;
+                        $scope.usuarioEdicao.senhaAtual = "";
+                        $rootScope.openModalError("Não foi possível atualizar o cadastro deste usuário.", "A Nova Senha deve ser diferente da Senha Atual.");
+                        return;    
                     }
+                    //##
+
+                    //## Atualiza a senha criptografada no objeto
+                    $scope.usuarioEdicao.senha = senhaNovaCrypto;
                 }
-
-                //## Faz as conversões necessárias
-                $scope.time.dataFundacao = moment($scope.time.dataFundacaoFormatada, 'DD/MM/YYYY').toISOString();
-                $scope.timeNormalizado = $.extend({}, $scope.time);
-                $scope.timeNormalizado.coresUniforme1 = $scope.time.coresUniforme1.getText();
-                $scope.timeNormalizado.coresUniforme2 = $scope.time.coresUniforme2.getText();
+                else{
+                    $scope.usuarioEdicao.senha = $scope.usuario.senha;
+                    $scope.usuarioEdicao.senhaAtual = "";
+                    $rootScope.openModalError("Não foi possível atualizar o cadastro deste usuário.", "A Senha atual informada não é válida.");
+                    return;
+                }
                 //##
+            }
+            else{
+                $scope.usuarioEdicao.senha = $scope.usuario.senha;
+            }
+            //##
 
-                //## Atualizar as informações na base
-                timeService.atualizar($scope.timeNormalizado).then(function(responseAtualizar){
-                    if (responseAtualizar.data && responseAtualizar.data === true){
-                        
-                        //## Atualizar as informações do time selecionado em cache
-                        loginService.preencherDadosAutenticacao();
-                        $scope.usuario = loginService.usuarioLogado();
+            //## Atualizar as informações na base
+            usuarioService.atualizar($scope.usuarioEdicao).then(function(responseAtualizar){
+                if (responseAtualizar.data && responseAtualizar.data === true){
+                    
+                    //## Atualizar as informações do usuario em cache
+                    loginService.preencherDadosAutenticacao();
+                    $scope.usuario = loginService.usuarioLogado();
 
-                        //## Rola o Scroll pra cima
-                        $('body').animate({scrollTop: 0}, 250);
+                    //## Rola o Scroll pra cima
+                    $('body').animate({scrollTop: 0}, 250);
 
-                        $rootScope.openModalSuccess("O cadastro do time foi atualizado.");
-                    }
-                    else{
-                        $rootScope.openModalError("Não foi possível atualizar o cadastro deste time.");   
-                    }
-                },
-                function(responseAtualizarError){
-                    $rootScope.openModalError("Não foi possível atualizar o cadastro deste time.");
-                });
+                    //## Desabilita mudança de senha
+                    $scope.formControls.dvLinkAlterarSenha.show();
+                    $scope.formControls.dvAlterarSenha.hide();
+                    $scope.usuarioEdicao.senhaAtual = "";
+                    $scope.usuarioEdicao.novaSenha = "";
+                    $scope.usuarioEdicao.confirmaSenha = "";
+
+                    $rootScope.openModalSuccess("O cadastro do usuário foi atualizado.");
+                }
+                else{
+                    $rootScope.openModalError("Não foi possível atualizar o cadastro deste usuário.");   
+                }
+            },
+            function(responseAtualizarError){
+                $rootScope.openModalError("Não foi possível atualizar o cadastro deste usuário.");
             });
         }
 

@@ -48,12 +48,11 @@
                                         <div class="form-group">
                                             <label class="col-md-2 control-label">Data de Nascimento</label>
                                             <div class="col-md-2">
-                                                <div class="input-group input-group-sm date" 
-                                                datetimepicker-options="{format:'DD/MM/YYYY'}" datetimepicker 
-                                                ng-model="usuarioEdicao.dataNascimento">
-                                                  <input type="text" class="form-control" id='txtDtNascimento'
-                                                  name='txtDtNascimento' placeholder="Data de Nascimento"   />
-                                                  <span class="input-group-addon clickable"><span class="fa fa-calendar"></span></span>
+                                                <div class="input-group">
+                                                    <input type="text" id="txtDtNascimento" name="txtDtNascimento" 
+                                                    datetimepicker ng-model="usuarioEdicao.dataNascimentoFormatada"
+                                                    class="form-control" />
+                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -75,22 +74,22 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div id="dvLinkAlterarSenha" class="form-group">
                                             <div class="col-md-3 text-right" style="margin-left: 5px; margin-top: 10px">
                                                 <a ng-click="habilitarAlterarSenha()" class="clickable">Alterar Senha</a>
                                             </div>
                                         </div>
-                                        <div id="dvAlterarSenha" style="display: none;">
+                                        <div id="dvAlterarSenha" style="display: none; padding-top: 10px;">
                                             <div class="form-group">
                                                 <label class="col-md-2 control-label">Senha Atual</label>
                                                 <div class="col-md-2">
-                                                    <input type="password" class="form-control" id="txtSenha" name="txtSenhaAtual" placeholder="Senha" ng-model="usuarioEdicao.senha" />
+                                                    <input type="password" class="form-control" id="txtSenhaAtual" name="txtSenhaAtual" placeholder="Senha" ng-model="usuarioEdicao.senhaAtual" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-2 control-label">Senha</label>
+                                                <label class="col-md-2 control-label">Nova Senha</label>
                                                 <div class="col-md-2">
-                                                    <input type="password" class="form-control" id="txtSenha" name="txtSenhaNova" placeholder="Senha" ng-model="usuarioEdicao.senha" />
+                                                    <input type="password" class="form-control" id="txtSenhaNova" name="txtSenhaNova" placeholder="Senha" ng-model="usuarioEdicao.novaSenha" />
                                                 </div>
                                                 <label class="col-md-2 control-label">Confirmar Senha</label>
                                                 <div class="col-md-2">
