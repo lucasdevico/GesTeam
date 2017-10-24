@@ -1,3 +1,24 @@
+.statusModal {
+    margin-right: 10px;
+    margin-top: 7px;
+    float: right;
+}
+
+.filtros-avancados{
+  padding-top: 5px;
+  padding-bottom: 10px;
+  display: none;
+  right: 1px;
+  border: 1px solid #D5D5D5;
+  border-top: none;
+  -webkit-border-bottom-right-radius: 12px;
+  -webkit-border-bottom-left-radius: 12px;
+  -moz-border-radius-bottomright: 12px;
+  -moz-border-radius-bottomleft: 12px;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
 datetimepicker2{
   margin-bottom: 0px;
 }

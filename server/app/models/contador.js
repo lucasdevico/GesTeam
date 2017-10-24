@@ -9,7 +9,7 @@ var contadorSchema = mongoose.Schema({
 		type: Number,
 		required: true
 	}
-});
+}, { collection: 'contadores' });
 
 contadorSchema.statics.findAndModify = function (query, sort, doc, options, callback) {
   return this.collection.findAndModify(query, sort, doc, options, callback);

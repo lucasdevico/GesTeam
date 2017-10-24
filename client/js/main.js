@@ -47,7 +47,12 @@ app.config(function($routeProvider, $locationProvider) {
     $routeProvider.when('/usuario/editar', {
         templateUrl: 'partials/usuario.html',
         controller: 'UsuarioController'
-    }); 
+    });
+
+    $routeProvider.when('/jogadores', {
+        templateUrl: 'partials/jogador.html',
+        controller: 'JogadorController'
+    });
 
     $routeProvider.otherwise({redirectTo: '/login'});
 

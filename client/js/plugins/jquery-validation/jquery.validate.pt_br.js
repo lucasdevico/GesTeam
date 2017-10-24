@@ -25,20 +25,24 @@ $.validator.setDefaults({
     ignore: ':not(select:hidden, input:visible, textarea:visible)',
     errorPlacement: function(error, element) {
         if (element.hasClass('select')){
-        	element.parent().find('.bootstrap-select').first().addClass('error');
-        	error.insertAfter(element.parent().find('.bootstrap-select').first());
 
-        	// Ativa evento para manipular validação na alteração do controle
-        	element.unbind('change.validation').on('change.validation', function(){
-        		if (!element.val()){
-        			element.parent().find('.bootstrap-select').first().addClass('error');
-        			error.insertAfter(element.parent().find('.bootstrap-select').first());
-        		}
-        		else{
-        			element.parent().find('.bootstrap-select').removeClass('error');
-        			error.remove();
-        		}
-        	});
+          if (element.hasClass('error')){
+            element.parent().find('.bootstrap-select').first().addClass('error');            
+          }
+          error.insertAfter(element.parent().find('.bootstrap-select').first());
+
+          // Ativa evento para manipular validação na alteração do controle
+          element.unbind('change.validation').on('change.validation', function(){
+            if (!element.val()){
+              element.parent().find('.bootstrap-select').first().addClass('error');
+              error.insertAfter(element.parent().find('.bootstrap-select').first());
+            }
+            else{
+              element.removeClass('error');
+              element.parent().find('.bootstrap-select').first().removeClass('error');
+              error.remove();
+            }
+          });
         }
         else if(element.parent('.input-group').length){
           error.insertAfter(element.parent('.input-group'));

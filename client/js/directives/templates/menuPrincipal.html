@@ -25,36 +25,36 @@
         </div>                                                                        
     </li>
     <li class="xn-title">Navegação</li>
-    <li class="active">
-        <a class="clickable"><span class="fa fa-home"></span> <span class="xn-text">Principal</span></a>     
+    <li class="mnu-1">
+        <a ng-click="abrirMenu('principal', $event)" class="clickable"><span class="fa fa-home"></span> <span class="xn-text">Principal</span></a>     
     </li>
-    <li>
-        <a class="clickable"><span class="fa fa-users"></span> <span class="xn-text">Jogadores</span></a>     
+    <li class="mnu-2">
+        <a ng-click="abrirMenu('jogadores', $event)" class="clickable"><span class="fa fa-users"></span> <span class="xn-text">Jogadores</span></a>     
     </li>
-    <li>
-        <a class="clickable"><span class="fa fa-calendar-o"></span> <span class="xn-text">Plantel</span></a>
+    <li class="mnu-3">
+        <a ng-click="abrirMenu('', $event)" class="clickable"><span class="fa fa-calendar-o"></span> <span class="xn-text">Plantel</span></a>
     </li>
-    <li class="xn-openable">
+    <li class="xn-openable mnu-4">
         <a class="clickable"><span class="fa fa-dollar"></span> <span class="xn-text">Financeiro</span></a>
         <ul>
-            <li>
+            <li class="mnu-4-1">
                 <a class="clickable"><span class="fa fa-exchange"></span> <span>Caixa</span></a>
             </li>
-            <li>
+            <li class="mnu-4-2">
                 <a class="clickable"><span class="fa fa-mail-forward"></span> <span>Pagamento</span></a>
             </li>
-            <li>
+            <li  class="mnu-4-3">
                 <a class="clickable"><span class="fa fa-mail-reply"></span> <span>Mensalidade</span></a>
             </li>
         </ul>
     </li>
-    <li>
+    <li class="mnu-5">
         <a class="clickable"><span class="fa fa-phone-square"></span> <span class="xn-text">Adversários</span></a>
     </li>
-    <li>
+    <li class="mnu-6">
         <a class="clickable"><span class="fa fa-calendar"></span> <span class="xn-text">Agenda de Jogos</span></a>
     </li>
-    <li>
+    <li class="mnu-7">
         <a class="clickable"><span class="fa fa-eye"></span> <span class="xn-text">Resultados</span></a>
     </li>
 </ul>

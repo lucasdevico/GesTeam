@@ -2087,6 +2087,11 @@ ul.panel-controls > li > .dropdown-menu:before {
   font-size: 14px;
   margin-right: 5px;
 }
+
+.btn.btn-rounded span{
+  margin-right: 0px;
+}
+
 .btn.btn-rounded {
   background: transparent;
   color: #22262e;
@@ -3156,7 +3161,7 @@ blockquote.pull-right {
   width: 100%;
 }
 .dataTables_length {
-  width: 50%;
+  width: 100%;
   float: left;
   padding: 0px 0px 5px;
   border-bottom: 1px solid #E5E5E5;
@@ -3173,6 +3178,10 @@ blockquote.pull-right {
 .dataTables_length select {
   width: 70px;
   display: inline;
+  margin: 0px 5px;
+}
+.btn-group.bootstrap-select.form-control.dataTables__length{
+  width: 70px; 
   margin: 0px 5px;
 }
 .dataTables_filter {
