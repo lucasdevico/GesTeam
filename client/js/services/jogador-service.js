@@ -2,8 +2,8 @@ app.factory('jogadorService', ['$http', 'ngGesTeamSettings', '$q', function($htt
 	var usuarioServiceFactory = {};
 	var serviceBase = ngGesTeamSettings.apiServiceBaseUri;
 
-	usuarioServiceFactory.listar = function(_idTime, _pePreferido, _status, _posicao){
-		var url = serviceBase + '/jogadores/listar/' + _idTime + "/" + _pePreferido + "/" + _status + "/" + _posicao;
+	usuarioServiceFactory.listar = function(_idTime, _palavraChave, _pePreferido, _status, _posicao){
+		var url = serviceBase + '/jogadores/listar/' + _idTime + '/' +  _palavraChave + '/' +  _pePreferido + '/' + _status + '/' +  _posicao;
 		return $http.get(url).then(function(response){
 			return response;
 		});

@@ -1,5 +1,5 @@
 'use strict';
-app.controller('JogadorController', function($scope, loginService, $location, ngGesTeamSettings, $rootScope, statusService, $timeout, posicaoService) {
+app.controller('JogadorController', function($scope, loginService, $location, ngGesTeamSettings, $rootScope, statusService, $timeout, posicaoService, jogadorService) {
 	var me = $scope;
 
 	// Obter o usuário logado
@@ -26,7 +26,8 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
     me.filtrosAvancados = {
         posicao: undefined,
         pePreferido: undefined,
-        status: undefined
+        status: undefined,
+        palavraChave: undefined
     };
 
     me.lstJogadores = [];
@@ -61,35 +62,39 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
 
 	//## Load inicial da página
 	me.$on('$viewContentLoaded', function(){
-        _initDataTable();
+        //_initDataTable();
         _carregarComboStatus();
         _carregarComboPosicao();
         _initMasks();
         _initValidation();
+        me.carregarJogadores();
     });
 
     var _initDataTable = function(){
-    	$(".datatable").dataTable({
-    		"paging":   true,
-        	"searching": false,
-        	"language": {
-            	"url": "../js/plugins/datatables/Portuguese-Brasil.json"
-        	},
-        	initComplete: function () {
-        		$('.dataTables_length').find('select').addClass('dataTables_selectpicker_length').selectpicker();
-        	},
+
+        $('.select-rating').barrating('destroy');
+        
+        $(".datatable").dataTable({
+            "destroy":   true,
+            "paging":   true,
+            "searching": false,
+            "language": {
+                "url": "../js/plugins/datatables/Portuguese-Brasil.json"
+            },
+            initComplete: function () {
+                $('.dataTables_length').find('select').addClass('dataTables_selectpicker_length').selectpicker();
+                $(".datatable").on('page.dt',function () {
+                    onresize(100);
+                });
+                $('.select-rating').barrating({
+                    theme: 'fontawesome-stars'
+                });
+            },
             columnDefs: [ 
                 { width: "120px", "className": "text-center", targets: 4 },
                 { width: "80px", "className": "text-center", targets: 5 },
                 { orderable: false, width: "80px", "className": "text-center", targets: [6, 7] }
             ]
-    	});
-        $(".datatable").on('page.dt',function () {
-            onresize(100);
-        });
-
-        $('.select-rating').barrating({
-            theme: 'fontawesome-stars'
         });
     };
 
@@ -189,19 +194,54 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
         me.filtrosAvancados = {
             posicao: undefined,
             pePreferido: undefined,
-            status: undefined
+            status: undefined,
+            palavraChave: undefined
         };
+    }
+
+    //## Carregar lista de Jogadores
+    me.carregarJogadores = function(){
+        $rootScope.initLoading();
+        jogadorService.listar(
+            me.usuario.timeSelecionado._id,
+            me.filtrosAvancados.palavraChave, 
+            me.filtrosAvancados.pePreferido,
+            me.filtrosAvancados.status,
+            me.filtrosAvancados.posicao).then(function(response){
+                me.lstJogadores = response.data;
+                
+                $timeout(function(){
+                    _initDataTable();
+                });
+
+                $rootScope.completeLoading();
+            },
+            function(responseError){
+                $rootScope.cancelLoading();
+                $rootScope.openModalError("Não foi possível carregar os jogadores.");
+            })
     }
 
     //## Click do botão Pesquisar
     me.pesquisar = function(){
+        _tratarFiltrosNullOrEmpty();
         console.log(me.filtrosAvancados);
+        me.carregarJogadores();
+    }
+
+    var _tratarFiltrosNullOrEmpty = function(){
+        if (!me.filtrosAvancados.status)
+            me.filtrosAvancados.status = undefined;
+
+        if (!me.filtrosAvancados.pePreferido)
+            me.filtrosAvancados.pePreferido = undefined;
+
+        if (!me.filtrosAvancados.posicao)
+            me.filtrosAvancados.posicao = undefined;
     }
 
     //## Evento de Inclusão de Jogador
     me.adicionarJogador = function(callback){
-        console.log(me.jogador);
-
         if (me.formControls.form.valid()){
             $rootScope.initLoading();
 
@@ -209,15 +249,46 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
             me.jogador.dataNascimento = moment(me.jogador.dataNascimentoFormatada, 'DD/MM/YYYY').toISOString();
             //##
 
-            noty({text: "Jogador adicionado com sucesso!", layout: 'topRight', type: 'success'});
-            $rootScope.completeLoading();
-            setTimeout(function(){
-                $.noty.closeAll();
-            }, 5000);
+            me.jogador._time = me.usuario.timeSelecionado._id;
+            me.jogador._status = $.grep(me.lstStatus, function(x){
+               return (x.descricao == "Ativo");
+            })[0]._id;
 
-            if(callback){
-                callback();
-            }
+
+            jogadorService.cadastrar(me.jogador).then(function(responseCadastrar){
+
+                noty({text: "Jogador adicionado com sucesso!", layout: 'topRight', type: 'success'});
+
+                me.jogador = {
+                    apelido: null,
+                    nome: null,
+                    dataNascimento: null,
+                    dataNascimentoFormatada: null,
+                    posicao: null,
+                    pePreferido: null,
+                    classificacao: 1,
+                    status: null,
+                    contato: {
+                        email: null,
+                        telefone1: null,
+                        telefone2: null
+                    }
+                };
+
+                $rootScope.completeLoading();
+                setTimeout(function(){
+                    $.noty.closeAll();
+                }, 5000);
+
+                if(callback){
+                    callback();
+                }
+
+            },
+            function(responseCadastrarError){
+                console.log(responseCadastrarError);
+                $rootScope.openModalError("Não foi possível cadastrar este jogador.");
+            });
         }
     }
 

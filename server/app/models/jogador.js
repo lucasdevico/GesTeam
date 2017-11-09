@@ -13,7 +13,7 @@ var jogadorSchema = mongoose.Schema({
 	contato: {
 		telefone1: {
 			type: String,
-			required: true
+			required: false
 		},
 		telefone2: {
 			type: String,
@@ -21,7 +21,7 @@ var jogadorSchema = mongoose.Schema({
 		},
 		email:{
 			type: String,
-			required: true
+			required: false
 		},
 		permiteSMS: {
 			type: Boolean,
@@ -56,6 +56,6 @@ var jogadorSchema = mongoose.Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'Time'
 	}
-});
+}, { collection: 'jogadores' });
 
 mongoose.model('Jogador', jogadorSchema);

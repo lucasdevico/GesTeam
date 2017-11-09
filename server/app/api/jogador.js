@@ -5,12 +5,34 @@ module.exports = function(app) {
 
 	var modelJogador = mongoose.model('Jogador');
 
+	var tratarParamUndefined = function(value){
+		if (value == 'undefined' || value == 'null'){
+			value = undefined;
+		}
+		return value;
+	}
+
 	api.listar = function(req, res){
 		let query = {}; 
-		req.params.idTime ? (query._time = req.params.idTime) : "";
-		req.params.pePreferido ? (query.pePreferido = req.params.pePreferido) : "";
-		req.params.status ? (query.status = req.params.status) : "";
-		req.params.posicao ? (query.posicao = req.params.posicao) : "";
+
+		query._time = req.params.idTime;
+		
+		tratarParamUndefined(req.params.palavraChave) ? (query.nome = {
+				'$regex': '^' + req.params.palavraChave + '$',
+				'$options': 'i'
+		}) : "";
+
+		tratarParamUndefined(req.params.palavraChave) ? (query.apelido = {
+				'$regex': '^' + req.params.palavraChave + '$',
+				'$options': 'i'
+		}) : "";
+
+		tratarParamUndefined(req.params.pePreferido) ? (query.pePreferido = req.params.pePreferido) : "";
+		tratarParamUndefined(req.params.status) ? (query._status = req.params.status) : "";
+
+		tratarParamUndefined(req.params.posicao) ? (query.posicao = req.params.posicao) : "";
+
+		console.log(query);
 
 		modelJogador.find(query)
 		.populate('_status')

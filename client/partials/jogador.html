@@ -39,7 +39,7 @@
                                                     <div class="input-group-addon">
                                                         <span class="fa fa-search"></span>
                                                     </div>
-                                                    <input type="text" class="form-control" placeholder="Quem você está procurando?"/>
+                                                    <input type="text" ng-model="filtrosAvancados.palavraChave" class="form-control" placeholder="Quem você está procurando?"/>
                                                     <div class="input-group-btn">
                                                         <button ng-click="pesquisar()" class="btn btn-primary">Pesquisar</button>
                                                         <button ng-click="exibirFiltroAvancado()" class="btn btn-info"><span class="fa fa-cog"></span></button>
@@ -77,7 +77,7 @@
                                                             <select selectpicker id="cboFiltrosStatus" name="cboFiltrosStatus" class="form-control" 
                                                             ng-model="filtrosAvancados.status">
                                                                 <option></option>
-                                                                <option ng-repeat="status in lstStatus" value="{{status.descricao}}">{{status.descricao}}</option>
+                                                                <option ng-repeat="status in lstStatus" value="{{status._id}}">{{status.descricao}}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -116,126 +116,22 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Lucas</td>
-                                                    <td>Lucas de Vico Souza</td>
-                                                    <td>Pivô</td>
-                                                    <td>Direito</td>
+                                                <tr ng-repeat="jogador in lstJogadores">
+                                                    <td>{{jogador.apelido}}</td>
+                                                    <td>{{jogador.nome}}</td>
+                                                    <td>{{jogador.posicao}}</td>
+                                                    <td>{{jogador.pePreferido}}</td>
                                                     <td>
-                                                        <span style="display: none;">1</span>
+                                                        <span style="display: none;">{{jogador.classificacao}}</span>
                                                         <select id="chkRating" class="select-rating">
-                                                          <option value="1">1</option>
-                                                          <option value="2">2</option>
-                                                          <option value="3">3</option>
-                                                          <option value="4">4</option>
-                                                          <option value="5">5</option>
+                                                          <option ng-selected="jogador.classificacao == 1" value="1">1</option>
+                                                          <option ng-selected="jogador.classificacao == 2" value="2">2</option>
+                                                          <option ng-selected="jogador.classificacao == 3" value="3">3</option>
+                                                          <option ng-selected="jogador.classificacao == 4" value="4">4</option>
+                                                          <option ng-selected="jogador.classificacao == 5" value="5">5</option>
                                                         </select>
                                                     </td>
-                                                    <td><span class="label label-success">Ativo</span></td>
-                                                    <td>
-                                                        <button class="btn btn-default btn-rounded btn-sm">
-                                                            <span class="fa fa-pencil"></span>
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-danger btn-rounded btn-sm" onclick="delete_row('trow_1');">
-                                                            <span class="fa fa-times"></span>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Lelo</td>
-                                                    <td>Hélio Murcy</td>
-                                                    <td>Ala</td>
-                                                    <td>Direito</td>
-                                                    <td>
-                                                        <select id="chkRating" class="select-rating">
-                                                          <option value="1">1</option>
-                                                          <option selected="selected" value="2">2</option>
-                                                          <option value="3">3</option>
-                                                          <option value="4">4</option>
-                                                          <option value="5">5</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><span class="label label-danger">Inativo</span></td>
-                                                    <td>
-                                                        <button class="btn btn-default btn-rounded btn-sm">
-                                                            <span class="fa fa-pencil"></span>
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-danger btn-rounded btn-sm" onclick="delete_row('trow_1');">
-                                                            <span class="fa fa-times"></span>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Lelo</td>
-                                                    <td>Hélio Murcy</td>
-                                                    <td>Ala</td>
-                                                    <td>Direito</td>
-                                                    <td>
-                                                        <select id="chkRating" class="select-rating">
-                                                          <option value="1">1</option>
-                                                          <option selected="selected" value="2">2</option>
-                                                          <option value="3">3</option>
-                                                          <option value="4">4</option>
-                                                          <option value="5">5</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><span class="label label-danger">Inativo</span></td>
-                                                    <td>
-                                                        <button class="btn btn-default btn-rounded btn-sm">
-                                                            <span class="fa fa-pencil"></span>
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-danger btn-rounded btn-sm" onclick="delete_row('trow_1');">
-                                                            <span class="fa fa-times"></span>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Lelo</td>
-                                                    <td>Hélio Murcy</td>
-                                                    <td>Ala</td>
-                                                    <td>Direito</td>
-                                                    <td>
-                                                        <select id="chkRating" class="select-rating">
-                                                          <option value="1">1</option>
-                                                          <option selected="selected" value="2">2</option>
-                                                          <option value="3">3</option>
-                                                          <option value="4">4</option>
-                                                          <option value="5">5</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><span class="label label-danger">Inativo</span></td>
-                                                    <td>
-                                                        <button class="btn btn-default btn-rounded btn-sm">
-                                                            <span class="fa fa-pencil"></span>
-                                                        </button>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-danger btn-rounded btn-sm" onclick="delete_row('trow_1');">
-                                                            <span class="fa fa-times"></span>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Lelo</td>
-                                                    <td>Hélio Murcy</td>
-                                                    <td>Ala</td>
-                                                    <td>Direito</td>
-                                                    <td>
-                                                        <select id="chkRating" class="select-rating">
-                                                          <option value="1">1</option>
-                                                          <option selected="selected" value="2">2</option>
-                                                          <option value="3">3</option>
-                                                          <option value="4">4</option>
-                                                          <option value="5">5</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><span class="label label-danger">Inativo</span></td>
+                                                    <td><span class="label" ng-class="jogador._status.descricao == 'Ativo' ? 'label-success' : 'label-danger'">{{jogador._status.descricao}}</span></td>
                                                     <td>
                                                         <button class="btn btn-default btn-rounded btn-sm">
                                                             <span class="fa fa-pencil"></span>
@@ -291,7 +187,7 @@
                                     <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="text" id="txtDtNascimento" name="txtDtNascimento" 
-                                            datetimepicker ng-model="usuarioEdicao.dataNascimentoFormatada"
+                                            datetimepicker ng-model="jogador.dataNascimentoFormatada"
                                             class="form-control" />
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
