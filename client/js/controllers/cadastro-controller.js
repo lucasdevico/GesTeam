@@ -500,6 +500,9 @@ app.controller('CadastroController', function(
             }
 
             $scope.novoCadastro.usuario.senha = $crypthmac.encrypt($scope.novoCadastro.usuario.senha);
+            
+            $scope.novoCadastro.usuario.dataNascimento = moment($scope.novoCadastro.usuario.dataNascimento, 'DD/MM/YYYY').toISOString();
+            $scope.novoCadastro.time.dataFundacao = moment($scope.novoCadastro.time.dataFundacao, 'DD/MM/YYYY').toISOString();
 
             usuarioService.cadastrar($scope.novoCadastro).then(function (response) {
                         var msg = "Seu cadastro foi efetuado com sucesso.";
