@@ -123,17 +123,11 @@
                                                     <td>{{jogador.pePreferido}}</td>
                                                     <td>
                                                         <span style="display: none;">{{jogador.classificacao}}</span>
-                                                        <select id="chkRating" class="select-rating">
-                                                          <option ng-selected="jogador.classificacao == 1" value="1">1</option>
-                                                          <option ng-selected="jogador.classificacao == 2" value="2">2</option>
-                                                          <option ng-selected="jogador.classificacao == 3" value="3">3</option>
-                                                          <option ng-selected="jogador.classificacao == 4" value="4">4</option>
-                                                          <option ng-selected="jogador.classificacao == 5" value="5">5</option>
-                                                        </select>
+                                                        <div class="rating" ng-rating-model="jogador.classificacao"></div>
                                                     </td>
                                                     <td><span class="label" ng-class="jogador._status.descricao == 'Ativo' ? 'label-success' : 'label-danger'">{{jogador._status.descricao}}</span></td>
                                                     <td>
-                                                        <button class="btn btn-default btn-rounded btn-sm">
+                                                        <button class="btn btn-default btn-rounded btn-sm" ng-click="modalEditarJogador(jogador)">
                                                             <span class="fa fa-pencil"></span>
                                                         </button>
                                                     </td>
@@ -163,8 +157,10 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
                         <h4 class="modal-title" id="largeModalHead">
-                            <span class="fa fa-user"></span>&nbsp;&nbsp;Jogador
-                            <span id="lblStatusModal" class="label label-success statusModal">Novo</span>
+                            <span class="fa fa-user"></span>&nbsp;&nbsp;
+                            Jogador
+                            <span id="lblStatusModal" ng-hide="jogador.acao == 'Editar'" class="label label-success statusModal">Novo</span>
+                            <span id="lblStatusModal" ng-show="jogador.acao == 'Editar'" class="label label-danger statusModal">Edição</span>
                         </h4>
                     </div>
                     <div class="panel-body">
@@ -186,7 +182,7 @@
                                     <label class="col-md-4 control-label">Data de Nascimento</label>
                                     <div class="col-md-5">
                                         <div class="input-group">
-                                            <input type="text" id="txtDtNascimento" name="txtDtNascimento" 
+                                            <input type="text" id="txtDtNascimento" name="txtDtNascimento" placeholder="Data Nascimento"
                                             datetimepicker ng-model="jogador.dataNascimentoFormatada"
                                             class="form-control" />
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -217,13 +213,7 @@
                                 <div class="row form-group">
                                     <label class="col-md-4 control-label">Classificação</label>
                                     <div class="col-md-4 col-xs-12">
-                                        <select id="chkRating" class="select-rating" ng-model="jogador.classificacao" convert-to-number>
-                                          <option value="1">1</option>
-                                          <option value="2">2</option>
-                                          <option value="3">3</option>
-                                          <option value="4">4</option>
-                                          <option value="5">5</option>
-                                        </select>
+                                        <div class="rating" ng-rating-model="jogador.classificacao"></div>
                                     </div>    
                                 </div>
                                 <div class="row form-group">
@@ -257,9 +247,10 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button class="btn btn-success" ng-click="adicionarJogador()">Adicionar</button>
-                        <button class="btn btn-success" ng-click="adicionarJogadorUnico()">Adicionar & Fechar</button>
+                        <button class="btn btn-default" ng-click="fecharModal()">Cancelar</button>
+                        <button class="btn btn-success" ng-hide="jogador.acao == 'Editar'" ng-click="adicionarJogador()">Adicionar</button>
+                        <button class="btn btn-success" ng-hide="jogador.acao == 'Editar'" ng-click="adicionarJogadorUnico()">Adicionar & Fechar</button>
+                        <button class="btn btn-success" ng-show="jogador.acao == 'Editar'" ng-click="editarJogador()">Editar & Fechar</button>
                     </div>
                 </div>
             </div>

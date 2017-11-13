@@ -4,8 +4,12 @@
   "description": "API com funcionalidades do GesTeam",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "forever": "forever start server.js", 
+    "start-db": "C:/\"Program Files\"/MongoDB/Server/3.4/bin/mongod.exe",
+    "start-server": "nodemon server",
+    "debug": "concurrently \"npm run start-db\" \"npm run start-server\"",
+    "start": "concurrently \"npm run mongo-win\" \"npm run forever\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
     "name": "Lucas de Vico Souza",
@@ -18,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "concurrently": "^3.5.0",
     "consign": "^0.1.6",
     "express": "^4.15.4",
     "jsonwebtoken": "^7.4.3",

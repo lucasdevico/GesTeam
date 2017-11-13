@@ -1,3 +1,11 @@
+.rating {
+  font-size: 16px !important;
+  /*color: darkgoldenrod;*/
+}
+.rating i {
+  margin-left: -5px;
+}
+
 .statusModal {
     margin-right: 10px;
     margin-top: 7px;

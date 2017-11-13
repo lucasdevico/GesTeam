@@ -20,7 +20,11 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
             cboPePreferido: $("#cboPePreferido"),
             cboStatus: $("#cboStatus")
         },
-        btnLimparFiltroAvancado: $("#btnLimparFiltroAvancado")
+        btnLimparFiltroAvancado: $("#btnLimparFiltroAvancado"),
+        modalAdicionarEditarJogador: {
+            modal: $("#modalAdicionarEditarJogador"),
+            rating: $("#modalAdicionarEditarJogador").find('.rating')
+        }
     };
 
     me.filtrosAvancados = {
@@ -62,7 +66,6 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
 
 	//## Load inicial da página
 	me.$on('$viewContentLoaded', function(){
-        //_initDataTable();
         _carregarComboStatus();
         _carregarComboPosicao();
         _initMasks();
@@ -72,30 +75,30 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
 
     var _initDataTable = function(){
 
-        $('.select-rating').barrating('destroy');
+        if (!$.fn.DataTable.isDataTable('.datatable')){
         
-        $(".datatable").dataTable({
-            "destroy":   true,
-            "paging":   true,
-            "searching": false,
-            "language": {
-                "url": "../js/plugins/datatables/Portuguese-Brasil.json"
-            },
-            initComplete: function () {
-                $('.dataTables_length').find('select').addClass('dataTables_selectpicker_length').selectpicker();
-                $(".datatable").on('page.dt',function () {
-                    onresize(100);
-                });
-                $('.select-rating').barrating({
-                    theme: 'fontawesome-stars'
-                });
-            },
-            columnDefs: [ 
-                { width: "120px", "className": "text-center", targets: 4 },
-                { width: "80px", "className": "text-center", targets: 5 },
-                { orderable: false, width: "80px", "className": "text-center", targets: [6, 7] }
-            ]
-        });
+            $(".datatable").dataTable({
+                "destroy":   true,
+                "paging":   true,
+                "searching": false,
+                "language": {
+                    "url": "../js/plugins/datatables/Portuguese-Brasil.json"
+                },
+                initComplete: function () {
+                    $('.dataTables_length').find('select').addClass('dataTables_selectpicker_length').selectpicker();
+                    $(".datatable").on('page.dt',function () {
+                        onresize(100);
+                    });
+                },
+                columnDefs: [ 
+                    { width: "120px", "className": "text-center", targets: 4 },
+                    { width: "80px", "className": "text-center", targets: 5 },
+                    { orderable: false, width: "80px", "className": "text-center", targets: [6, 7] }
+                ]
+            });
+        
+        }
+        
     };
 
     me.exibirFiltroAvancado = function(){
@@ -202,6 +205,7 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
     //## Carregar lista de Jogadores
     me.carregarJogadores = function(){
         $rootScope.initLoading();
+        me.lstJogadores = [];
         jogadorService.listar(
             me.usuario.timeSelecionado._id,
             me.filtrosAvancados.palavraChave, 
@@ -209,12 +213,10 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
             me.filtrosAvancados.status,
             me.filtrosAvancados.posicao).then(function(response){
                 me.lstJogadores = response.data;
-                
-                $timeout(function(){
+                $rootScope.completeLoading();
+                setTimeout(function(){
                     _initDataTable();
                 });
-
-                $rootScope.completeLoading();
             },
             function(responseError){
                 $rootScope.cancelLoading();
@@ -240,6 +242,47 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
             me.filtrosAvancados.posicao = undefined;
     }
 
+    //## Evento de abertura do modal para Edição de Jogador
+    me.modalEditarJogador = function(_jogador){
+        me.jogador = _jogador;
+        me.jogador.acao = "Editar";
+        me.jogador.dataNascimentoFormatada = moment($scope.jogador.dataNascimento).format('L');
+        me.formControls.modalAdicionarEditarJogador.rating.raty({ score: me.jogador.classificacao });
+        me.formControls.modalAdicionarEditarJogador.modal.modal('show');
+    }
+
+    //## Evento de Edição de Jogador
+    me.editarJogador = function(){
+        if (me.formControls.form.valid()){
+            $rootScope.initLoading();
+            
+                        //## Faz as conversões necessárias
+                        me.jogador.dataNascimento = moment(me.jogador.dataNascimentoFormatada, 'DD/MM/YYYY').toISOString();
+                        //##
+            
+                        me.jogador._time = me.usuario.timeSelecionado._id;
+                        me.jogador._status = $.grep(me.lstStatus, function(x){
+                           return (x.descricao == "Ativo");
+                        })[0]._id;
+                        
+                        jogadorService.atualizar(me.jogador).then(function(responseAtualizar){
+            
+                            noty({text: "Jogador alterado com sucesso!", layout: 'topRight', type: 'success'});
+                            
+                            me.fecharModal(true);
+                            
+                            $rootScope.completeLoading();
+                            setTimeout(function(){
+                                $.noty.closeAll();
+                            }, 5000);            
+                        },
+                        function(responseAtualizarError){
+                            console.log(responseAtualizarError);
+                            $rootScope.openModalError("Não foi possível alterar este jogador.");
+                        });
+        }
+    }
+
     //## Evento de Inclusão de Jogador
     me.adicionarJogador = function(callback){
         if (me.formControls.form.valid()){
@@ -253,27 +296,10 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
             me.jogador._status = $.grep(me.lstStatus, function(x){
                return (x.descricao == "Ativo");
             })[0]._id;
-
-
+            
             jogadorService.cadastrar(me.jogador).then(function(responseCadastrar){
 
                 noty({text: "Jogador adicionado com sucesso!", layout: 'topRight', type: 'success'});
-
-                me.jogador = {
-                    apelido: null,
-                    nome: null,
-                    dataNascimento: null,
-                    dataNascimentoFormatada: null,
-                    posicao: null,
-                    pePreferido: null,
-                    classificacao: 1,
-                    status: null,
-                    contato: {
-                        email: null,
-                        telefone1: null,
-                        telefone2: null
-                    }
-                };
 
                 $rootScope.completeLoading();
                 setTimeout(function(){
@@ -301,8 +327,27 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
     me.fecharModal = function(atualizarGrid){
         if (atualizarGrid){
             //## Atualizar informações do grid
-
+            me.carregarJogadores();
         }
+
+        me.formControls.modalAdicionarEditarJogador.rating.raty('reload');
+
+        me.jogador = {
+            apelido: null,
+            nome: null,
+            dataNascimento: null,
+            dataNascimentoFormatada: null,
+            posicao: null,
+            pePreferido: null,
+            classificacao: 1,
+            status: null,
+            contato: {
+                email: null,
+                telefone1: null,
+                telefone2: null
+            }
+        };
+
         $('#modalAdicionarEditarJogador').modal('hide');
     }
 
