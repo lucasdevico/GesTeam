@@ -15,17 +15,28 @@ module.exports = function(app) {
 	api.listar = function(req, res){
 		let query = {}; 
 
+
 		query._time = req.params.idTime;
 		
-		tratarParamUndefined(req.params.palavraChave) ? (query.nome = {
-				'$regex': '^' + req.params.palavraChave + '$',
+		var queryNome = tratarParamUndefined(req.params.palavraChave) ? (
+			nome = {
+				'$regex': req.params.palavraChave,
 				'$options': 'i'
-		}) : "";
+			}
+		) : "";
 
-		tratarParamUndefined(req.params.palavraChave) ? (query.apelido = {
-				'$regex': '^' + req.params.palavraChave + '$',
+		var queryApelido = tratarParamUndefined(req.params.palavraChave) ? (
+			apelido = {
+				'$regex': req.params.palavraChave,
 				'$options': 'i'
-		}) : "";
+			}
+		) : "";
+
+		if (tratarParamUndefined(req.params.palavraChave)){
+			query.$or = [];
+			query.$or.push({nome: queryNome});
+			query.$or.push({apelido: queryApelido});
+		}
 
 		tratarParamUndefined(req.params.pePreferido) ? (query.pePreferido = req.params.pePreferido) : "";
 		tratarParamUndefined(req.params.status) ? (query._status = req.params.status) : "";

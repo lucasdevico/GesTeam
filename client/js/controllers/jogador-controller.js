@@ -71,11 +71,24 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
         _initMasks();
         _initValidation();
         me.carregarJogadores();
+        setTimeout(function(){
+            onresize(100);
+        }, 1000);
     });
 
     var _initDataTable = function(){
 
         if (!$.fn.DataTable.isDataTable('.datatable')){
+
+            $.fn.dataTable.ext.type.order['posicoes-pre'] = function ( d ) {
+                switch ( d ) {
+                    case 'Goleiro':    return 1;
+                    case 'Fixo': return 2;
+                    case 'Ala':   return 3;
+                    case 'Pivô':   return 4;
+                }
+                return 0;
+            };
         
             $(".datatable").dataTable({
                 "destroy":   true,
@@ -91,6 +104,7 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
                     });
                 },
                 columnDefs: [ 
+                    { "type": "posicoes", targets: 0 },
                     { width: "120px", "className": "text-center", targets: 4 },
                     { width: "80px", "className": "text-center", targets: 5 },
                     { orderable: false, width: "80px", "className": "text-center", targets: [6, 7] }
@@ -227,11 +241,13 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
     //## Click do botão Pesquisar
     me.pesquisar = function(){
         _tratarFiltrosNullOrEmpty();
-        console.log(me.filtrosAvancados);
         me.carregarJogadores();
     }
 
     var _tratarFiltrosNullOrEmpty = function(){
+        if (!me.filtrosAvancados.palavraChave)
+        me.filtrosAvancados.palavraChave = undefined;
+
         if (!me.filtrosAvancados.status)
             me.filtrosAvancados.status = undefined;
 
@@ -242,12 +258,45 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
             me.filtrosAvancados.posicao = undefined;
     }
 
+    //## Evento de Exclusão de Jogador
+    me.excluirJogador = function(_jogador){
+        noty({
+            text: 'Deseja realmente excluir?',
+            layout: 'topRight',
+            buttons: [
+                    {addClass: 'btn btn-success btn-clean btn-small', text: 'Sim', onClick: function($noty) {
+                        $noty.close();
+                        $rootScope.initLoading();
+                        jogadorService.excluir(_jogador._id).then(function(response){
+                            if (response.data){
+                                me.lstJogadores = $.grep(me.lstJogadores, function(x){
+                                    return (x._id != _jogador._id);
+                                });
+                
+                                noty({text: "Jogador excluído com sucesso!", layout: 'topRight', type: 'success'});
+                                $rootScope.completeLoading();
+                                setTimeout(function(){
+                                    $.noty.closeAll();
+                                }, 5000);          
+                            }  
+                        });
+                    }
+                    },
+                    {addClass: 'btn btn-danger btn-clean btn-small', text: 'Não', onClick: function($noty) {
+                        $noty.close();
+                        }
+                    }
+                ]
+        });
+    }
+
     //## Evento de abertura do modal para Edição de Jogador
     me.modalEditarJogador = function(_jogador){
-        me.jogador = _jogador;
+        me.jogador = $.extend({}, _jogador);
         me.jogador.acao = "Editar";
         me.jogador.dataNascimentoFormatada = moment($scope.jogador.dataNascimento).format('L');
-        me.formControls.modalAdicionarEditarJogador.rating.raty({ score: me.jogador.classificacao });
+        // me.formControls.modalAdicionarEditarJogador.rating.raty({ score: me.jogador.classificacao });
+        me.formControls.modalAdicionarEditarJogador.rating.raty('score', me.jogador.classificacao);
         me.formControls.modalAdicionarEditarJogador.modal.modal('show');
     }
 
@@ -260,11 +309,6 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
                         me.jogador.dataNascimento = moment(me.jogador.dataNascimentoFormatada, 'DD/MM/YYYY').toISOString();
                         //##
             
-                        me.jogador._time = me.usuario.timeSelecionado._id;
-                        me.jogador._status = $.grep(me.lstStatus, function(x){
-                           return (x.descricao == "Ativo");
-                        })[0]._id;
-                        
                         jogadorService.atualizar(me.jogador).then(function(responseAtualizar){
             
                             noty({text: "Jogador alterado com sucesso!", layout: 'topRight', type: 'success'});
@@ -306,6 +350,26 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
                     $.noty.closeAll();
                 }, 5000);
 
+                me.formControls.modalAdicionarEditarJogador.rating.raty('reload');
+                
+                me.jogador = {
+                    apelido: null,
+                    nome: null,
+                    dataNascimento: null,
+                    dataNascimentoFormatada: null,
+                    posicao: null,
+                    pePreferido: null,
+                    classificacao: 1,
+                    status: null,
+                    contato: {
+                        email: null,
+                        telefone1: null,
+                        telefone2: null
+                    }
+                };
+
+                me.carregarJogadores();
+
                 if(callback){
                     callback();
                 }
@@ -330,6 +394,9 @@ app.controller('JogadorController', function($scope, loginService, $location, ng
             me.carregarJogadores();
         }
 
+        me.validator.resetForm();
+        me.formControls.modalAdicionarEditarJogador.modal.find('.bootstrap-select.error').removeClass('error');
+        me.formControls.modalAdicionarEditarJogador.modal.find('.valid').removeClass('valid');
         me.formControls.modalAdicionarEditarJogador.rating.raty('reload');
 
         me.jogador = {

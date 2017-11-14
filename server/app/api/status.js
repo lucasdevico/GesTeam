@@ -9,6 +9,7 @@ module.exports = function(app) {
 		var chave = req.params.chave;
 		
 		modelStatus.find({chave: chave})
+		.sort( { descricao: 1 } )
 		.then(function(lstStatus){
 			res.json(lstStatus);
 		}, function(error){

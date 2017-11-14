@@ -4,7 +4,7 @@
   "description": "API com funcionalidades do GesTeam",
   "main": "server.js",
   "scripts": {
-    "forever": "forever start server.js", 
+    "forever": "forever start server.js",
     "start-db": "C:/\"Program Files\"/MongoDB/Server/3.4/bin/mongod.exe",
     "start-server": "nodemon server",
     "debug": "concurrently \"npm run start-db\" \"npm run start-server\"",
