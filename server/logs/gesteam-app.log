@@ -1,0 +1,64 @@
+{"level":"info","message":"::1 - - [21/Nov/2017:02:00:01 +0000] \"GET /time/obter/5a07ae3bb5e295280c0fb8d9 HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:00:01.569Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:00:01 +0000] \"GET /utils/listarEstados HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:00:01.962Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:00:02 +0000] \"GET /utils/listarCidades/SP HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:00:02.088Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:00:21 +0000] \"GET /status/listar/GENERICO HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:00:21.359Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:00:21 +0000] \"GET /posicao/listar/FUTSAL HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:00:21.392Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:00:21 +0000] \"GET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:00:21.402Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:00:21 +0000] \"GET /status/listar/GENERICO HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:00:21.728Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:00:21 +0000] \"GET /posicao/listar/FUTSAL HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:00:21.731Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:00:21 +0000] \"GET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:00:21.738Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:02:07 +0000] \"GET /time/obter/5a07ae3bb5e295280c0fb8d9 HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:02:07.245Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:02:07 +0000] \"GET /utils/listarEstados HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:02:07.637Z"}
+{"level":"info","message":"::1 - - [21/Nov/2017:02:02:07 +0000] \"GET /utils/listarCidades/SP HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\"\n","timestamp":"2017-11-21T02:02:07.757Z"}
+{"level":"info","message":"\u001b[0mGET /usuario/obter/5a07ae3bb5e295280c0fb8da \u001b[32m200 \u001b[0m39.454 ms - 505\u001b[0m\n","timestamp":"2017-11-21T02:02:51.400Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m11.863 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:02:59.988Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m14.974 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:03:00.005Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m35.223 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:03:00.028Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m9.866 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:03:00.369Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m8.037 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:03:00.371Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m14.826 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:03:00.380Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m65.046 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:11:22.094Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m39.958 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:11:22.100Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m64.070 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:11:22.129Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m11.946 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:11:22.723Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m9.716 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:11:22.726Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m15.329 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:11:22.734Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m61.699 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:14:05.665Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m38.427 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:14:05.671Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m63.571 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:14:05.700Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m12.161 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:14:06.080Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m9.567 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:14:06.082Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m14.534 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:14:06.089Z"}
+{"level":"info","message":"\u001b[0mGET /time/obter/5a07ae3bb5e295280c0fb8d9 \u001b[32m200 \u001b[0m44.819 ms - 701\u001b[0m\n","timestamp":"2017-11-21T02:14:30.597Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarEstados \u001b[36m304 \u001b[0m77.813 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:14:31.211Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarCidades/SP \u001b[36m304 \u001b[0m8.582 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:14:31.404Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m48.676 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:16:32.263Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m67.137 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:16:32.300Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m43.963 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:16:32.314Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m12.955 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:16:32.847Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m10.063 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:16:32.850Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m14.956 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:16:32.858Z"}
+{"level":"info","message":"\u001b[0mGET /time/obter/5a07ae3bb5e295280c0fb8d9 \u001b[36m304 \u001b[0m44.523 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:17:47.189Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarEstados \u001b[36m304 \u001b[0m65.933 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:17:47.723Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarCidades/SP \u001b[36m304 \u001b[0m11.625 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:17:47.889Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m62.405 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:19:26.892Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m46.078 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:19:26.902Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m72.455 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:19:26.933Z"}
+{"level":"info","message":"\u001b[0mGET /status/listar/GENERICO \u001b[36m304 \u001b[0m12.071 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:19:27.528Z"}
+{"level":"info","message":"\u001b[0mGET /posicao/listar/FUTSAL \u001b[36m304 \u001b[0m9.404 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:19:27.531Z"}
+{"level":"info","message":"\u001b[0mGET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined \u001b[36m304 \u001b[0m14.307 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:19:27.539Z"}
+{"level":"info","message":"\u001b[0mGET /time/obter/5a07ae3bb5e295280c0fb8d9 \u001b[36m304 \u001b[0m53.518 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:21:15.335Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarEstados \u001b[36m304 \u001b[0m73.276 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:21:15.890Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarCidades/SP \u001b[36m304 \u001b[0m8.098 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:21:16.030Z"}
+{"level":"info","message":"\u001b[0mGET /time/obter/5a07ae3bb5e295280c0fb8d9 \u001b[36m304 \u001b[0m35.999 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:23:59.331Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarEstados \u001b[36m304 \u001b[0m61.663 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:23:59.879Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarCidades/SP \u001b[36m304 \u001b[0m11.052 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:24:00.031Z"}
+{"level":"info","message":"5a07ae3bb5e295280c0fb8da GET /status/listar/GENERICO 38.171\n","timestamp":"2017-11-21T02:25:11.692Z"}
+{"level":"info","message":"5a07ae3bb5e295280c0fb8da GET /posicao/listar/FUTSAL 56.201\n","timestamp":"2017-11-21T02:25:11.722Z"}
+{"level":"info","message":"5a07ae3bb5e295280c0fb8da GET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined 40.578\n","timestamp":"2017-11-21T02:25:11.737Z"}
+{"level":"info","message":"5a07ae3bb5e295280c0fb8da GET /status/listar/GENERICO 10.843\n","timestamp":"2017-11-21T02:25:12.662Z"}
+{"level":"info","message":"5a07ae3bb5e295280c0fb8da GET /posicao/listar/FUTSAL 8.831\n","timestamp":"2017-11-21T02:25:12.665Z"}
+{"level":"info","message":"5a07ae3bb5e295280c0fb8da GET /jogadores/listar/5a07ae3bb5e295280c0fb8d9/undefined/undefined/undefined/undefined 12.929\n","timestamp":"2017-11-21T02:25:12.672Z"}
+{"level":"info","message":"\u001b[0mGET /time/obter/5a07ae3bb5e295280c0fb8d9 \u001b[36m304 \u001b[0m37.556 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:25:59.092Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarEstados \u001b[36m304 \u001b[0m63.160 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:25:59.772Z"}
+{"level":"info","message":"\u001b[0mGET /utils/listarCidades/SP \u001b[36m304 \u001b[0m11.587 ms - -\u001b[0m\n","timestamp":"2017-11-21T02:25:59.925Z"}
